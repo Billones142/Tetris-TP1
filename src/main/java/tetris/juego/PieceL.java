@@ -1,11 +1,20 @@
 package tetris.juego;
 
 public class PieceL extends BasePiece{
+    int variation;
     public PieceL() {
         super();
         
     };
     
+    public void setVariation(int variation) {
+        this.variation = variation;
+    }
+
+    public int getVariation() {
+        return variation;
+    }
+
     @Override
     public String[] getMatrix(){
         String[] value= {"",""};
@@ -16,11 +25,17 @@ public class PieceL extends BasePiece{
 
         switch (this.getState()) {
             case 0:
-                value= ;
+                value= matrixUp[this.variation];
                 break;
         
             case 1:
-                value= ;
+                value= matrixRight[this.variation];
+                break;
+            case 2:
+                value= matrixDown[this.variation];
+                break;
+            case 3:
+                value= matrixLeft[this.variation];
                 break;
             default:
                 break;
@@ -28,5 +43,8 @@ public class PieceL extends BasePiece{
         return value;
         }
 
-    
+    String[][] matrixUp=    {{},{}};
+    String[][] matrixRight= {{},{}};
+    String[][] matrixDown=  {{},{}};
+    String[][] matrixLeft=  {{},{}};
 }
