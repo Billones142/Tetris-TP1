@@ -2,9 +2,11 @@ package tetris.juego;
 
 public class PieceL extends BasePiece{
     int variation;
-    public PieceL() {
+    public PieceL(int rotation,int variation) {
         super();
-        
+        setMaxRotations(4);
+        setRotation(rotation);
+        setVariation(variation);;
     };
     
     public void setVariation(int variation) {
@@ -19,11 +21,15 @@ public class PieceL extends BasePiece{
     public String[] getMatrix(){
         String[] value= {"",""};
 
-        if(getState()>1){
-            setState(0);
+        if(getRotation()>1){
+            setRotation(0);
         }
 
-        switch (this.getState()) {
+        if(getRotation()>1){
+            setRotation(0);
+        }
+
+        switch (this.getRotation()) {
             case 0:
                 value= matrixUp[this.variation];
                 break;
@@ -43,8 +49,44 @@ public class PieceL extends BasePiece{
         return value;
         }
 
-    String[][] matrixUp=    {{},{}};
-    String[][] matrixRight= {{},{}};
-    String[][] matrixDown=  {{},{}};
-    String[][] matrixLeft=  {{},{}};
+    String[][] matrixUp=  {{"    ",
+                            "L   ",
+                            "L   ",
+                            "LL  "
+                            },{
+                            "    ",
+                            " L  ",
+                            " L  ",
+                            "LL  "}};
+    
+    String[][] matrixRight= {{
+                            "    ",
+                            "    ",
+                            "LLL ",
+                            "L   "
+                            },{
+                            "    ",
+                            "    ",
+                            "L   ",
+                            "LLL "}};
+    
+    String[][] matrixDown={{"    ",
+                            "LL  ",
+                            " L  ",
+                            " L  "
+                            },{
+                            "    ",
+                            "LL  ",
+                            "L   ",
+                            "L   "}};
+    
+    String[][] matrixLeft={{"    ",
+                            "    ",
+                            "  L ",
+                            "LLL "
+                            },{
+                            "    ",
+                            "    ",
+                            "LLL ",
+                            "  L "}};
 }

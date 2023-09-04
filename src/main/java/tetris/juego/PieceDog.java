@@ -3,9 +3,11 @@ package tetris.juego;
 public class PieceDog extends BasePiece{
     int variation;
     
-    public PieceDog() {
+    public PieceDog(int rotation,int variation) {
         super();
-        setVariation(0);
+        setMaxRotations(2);
+        setRotation(rotation);
+        setVariation(variation);
 
     }
     
@@ -21,11 +23,15 @@ public class PieceDog extends BasePiece{
     public String[] getMatrix(){
         String[] value= {"",""};
 
-        if(getState()>1){
-            setState(0);
+        if(getRotation()>1){
+            setRotation(0);
         }
 
-        switch (this.getState()) {
+        if(getRotation()<0){
+            setRotation(0);
+        }
+
+        switch (this.getRotation()) {
             case 0:
                 value= matrixHorizontal[this.variation];
                 break;
@@ -51,7 +57,7 @@ public class PieceDog extends BasePiece{
     }
     };
 
-    String[][] matrixVertical={{   "    ",
+    String[][] matrixVertical={{"    ",
                                 "D   ",
                                 "DD  ",
                                 " D  "

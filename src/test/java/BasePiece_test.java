@@ -8,7 +8,7 @@ public class BasePiece_test {
     @Test
     public void PieceDog_creation_test()
     {
-        PieceDog testD= new PieceDog();
+        PieceDog testD= new PieceDog(0,0);
         String[] matrix={   "    ",
                             "    ",
                             " DD ",
@@ -20,7 +20,7 @@ public class BasePiece_test {
     @Test
     public void PieceL_creation_test()
     {
-        PieceT testL= new PieceT();
+        PieceL testL= new PieceL(0,0);
         String[] matrix= {  "    ",
                             "L   ",
                             "L   ",
@@ -32,7 +32,7 @@ public class BasePiece_test {
     @Test
     public void PieceSquare_creation_test()
     {
-        PieceT testZ= new PieceT();
+        PieceSquare testZ= new PieceSquare(0,0);
         String[] matrix= {  "    ",
                             "    ",
                             "ZZ  ",
@@ -44,11 +44,11 @@ public class BasePiece_test {
     @Test
     public void PieceT_creation_test()
     {
-        PieceT testT= new PieceT();
+        PieceT testT= new PieceT(0,0);
         String[] matrix= {  "    ",
                             "    ",
-                            " T ",
-                            "TTT "};
+                            "TTT ",
+                            " T  "};
 
         assertArrayEquals(testT.getMatrix(), matrix );
     }
@@ -57,7 +57,7 @@ public class BasePiece_test {
     @Test
     public void PieceStick_creation_test()
     {
-        PieceStick testS= new PieceStick();
+        PieceStick testS= new PieceStick(0,0);
         String[] matrix= {  "    ",
                             "    ",
                             "    ",
