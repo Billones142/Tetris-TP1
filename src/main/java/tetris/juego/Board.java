@@ -15,8 +15,11 @@ public class Board {
     private static char SPACE_CHAR= ' ';
     
 
-    ArrayList<String> matrix;
-    ArrayList<BasePiece> pieces;
+    private ArrayList<String> matrix;
+    private ArrayList<BasePiece> pieces;
+
+    private int lastActivePieceIndex;
+    private int lastActivePieceYLine;
 
     public String getMatrix(int index) { // accede a una fila de la matrix mediante un indice
         return matrix.get(index);
@@ -38,9 +41,10 @@ public class Board {
         this.pieces.set(index, piece);
     }
 
-    private void addPiece(BasePiece piece){
+    public void addPiece(BasePiece piece){
         int index= getPieces().size();
         setPieces(index, piece);;  //+1?
+        lastActivePieceIndex= index;
         setPieceOnBoard(index);
     }
 
@@ -100,14 +104,25 @@ public class Board {
                 if(pieceMatrix[y].charAt(x) != ' '){
                     randomPositionXLine++;
                 }else{
-                    changeStringRange(randomPositionXLine, this.getMatrix(20 - y), pieceMatrix[y]);
+                    changeStringRange(randomPositionXLine, this.getMatrix(y), pieceMatrix[y]);  // agrega la fila de la pieza activa
                 }
             }
         }
+        lastActivePieceYLine= height;
     }
 
     public void moveDownActivePiece(){
-        
+        int pieceLinePosition;
+        for(int y= this.getMatrix().size(); y < 0 ; y--){
+            for(int x= 0 ; x < this.getMatrix(0).length(); x++){
+                char actualChar= this.getMatrix(y).charAt(x);
+                if(actualChar != ' '){
+                    pieceLinePosition= y;
+                }
+            }
+        }
+
+
     }
 
 }
