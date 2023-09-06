@@ -89,4 +89,6 @@ public class PieceL extends BasePiece{
                             "    ",
                             "LLL ",
                             "  L "}};
+
+    String[][] matrixLeft=
 }
