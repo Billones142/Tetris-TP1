@@ -1,7 +1,9 @@
 package tetris.juego;
 
 import java.util.Random;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Board {
     public Board() {
@@ -13,6 +15,7 @@ public class Board {
     private static String EMPTY_STRING= "";
     private static String SPACE_X4= "    ";
     private static char SPACE_CHAR= ' ';
+    private static char X_CHAR= 'x';
     
 
     private ArrayList<String> matrix;
@@ -122,11 +125,10 @@ public class Board {
         String[] pieceMatrix= piece.getMatrix();
         int randomPositionX= (int)Math.random() * (10 - width);
 
-
         for(int x= 0 ; x < width ; x++){
             for(int y= height; y > 0 ; y--){
                 int randomPositionXLine= randomPositionX;
-                if(pieceMatrix[y].charAt(x) != ' '){
+                if(pieceMatrix[y].charAt(x) != SPACE_CHAR){
                     randomPositionXLine++;
                 }else{
                     changeStringRange(randomPositionXLine, this.getMatrix(y), "x");  // agrega la fila de la pieza activa
@@ -136,43 +138,59 @@ public class Board {
         lastActivePieceYLine= height;
     }
 
+
     private boolean hasCollided(int index){
+        ArrayList<Integer> pointOfPosibleColition= new ArrayList<Integer>();
+        String upperString= this.getMatrix(index);
+
+            for(int i= 0; i < 10 ;i++){
+                if(upperString.charAt(i) == X_CHAR){
+                    pointOfPosibleColition.add(i);
+                }
+            }
+
+        return hasCollided(index, pointOfPosibleColition);
+    }
+
+    private boolean hasCollided(int index, ArrayList<Integer> pointOfPosibleColition){
             if(index + 1 > 19){
                 return true;
             }
             String upperString= this.getMatrix(index);
             String lowerString= this.getMatrix(index+1);
-            
-            ArrayList<Integer> pointOfPosibleColition= new ArrayList<Integer>();
+
             for(int i= 0; i < 10 ;i++){
-                if(upperString.charAt(i) == 'x'){
+                if(upperString.charAt(i) == X_CHAR){
                     pointOfPosibleColition.add(i);
                 }
             }
 
             for(int i= 0; i < pointOfPosibleColition.size(); i++){
-                if(lowerString.charAt(pointOfPosibleColition[i]) != 'x'){
+                if(lowerString.charAt(pointOfPosibleColition.get(i)) != X_CHAR){
                     return true;
                 }
             }
 
             return false;
-    
-        
     }
 
     public void moveDownActivePiece(){  //AGREGAR DESPUES: chequeo de colision
         BasePiece piece= getPieces(this.lastActivePieceIndex);
 
         for(int y= this.lastActivePieceYLine; y < this.getMatrix().size() ;y++){ // borra todos los espacios donde esta la pieza activa
-            String lineaRemplazo,lineaOriginal;
-            for(int i= 0; i < this.getMatrix(0).length(); i++){
-
+            String lineaRemplazo= new String(),lineaOriginal= this.getMatrix(y);
+            for(int i= 0; i < lineaOriginal.length(); i++){
+                if(lineaOriginal.charAt(i) != X_CHAR){
+                    lineaRemplazo.concat(EMPTY_STRING+lineaOriginal.charAt(i));
+                }else{
+                    lineaRemplazo.concat(EMPTY_STRING);
+                }
             }
-            setMatrix(y, );
         }
 
-
+        for(int i= 0; i < 0 ; i++){  //vuelve a colocar la pieza activa
+            
+        }
     }
 
 }

@@ -21,14 +21,6 @@ public class PieceL extends BasePiece{
     public String[] getMatrix(){
         String[] value= {"",""};
 
-        if(getRotation()>1){
-            setRotation(0);
-        }
-
-        if(getRotation()>1){
-            setRotation(0);
-        }
-
         switch (this.getRotation()) {
             case 0:
                 value= matrixUp[this.variation];

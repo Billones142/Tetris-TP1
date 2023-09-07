@@ -62,10 +62,10 @@ public class PieceDog extends BasePiece{
                                 "DD  ",
                                 " D  "
                                 },{
+                                "    ",
                                 " D  ",
                                 "DD  ",
-                                "D   ",
-                                "    "
+                                "D   "
                                 }
     };
 }

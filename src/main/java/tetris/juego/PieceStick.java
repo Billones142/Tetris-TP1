@@ -1,19 +1,15 @@
 package tetris.juego;
 
 public class PieceStick extends BasePiece{
-    public PieceStick(int rotation, int variation) {
+    public PieceStick(int rotation) {
         super();
-        setMaxRotations(1);
+        setMaxRotations(2);
         setRotation(rotation);
     }
 
     @Override
     public String[] getMatrix(){
         String[] value= {"",""};
-
-        if(getRotation()>1){
-            setRotation(0);
-        }
 
         switch (this.getRotation()) {
             case 0:
@@ -32,11 +28,11 @@ public class PieceStick extends BasePiece{
     String[] matrixHorizontal={ "    ",
                                 "    ",
                                 "    ",
-                                "SSSS"
-    };
+                                "SSSS"};
+
     String[] matrixVertical={   "S   ",
                                 "S   ",
                                 "S   ",
-                                "S   "
-    };
+                                "S   "};
+    
 };

@@ -9,7 +9,7 @@ public abstract class BasePiece implements IRotator{
         this.rotation = state;
     }
 
-    protected int getRotation() {
+    public int getRotation() {
         return rotation;
     }
 
@@ -22,7 +22,7 @@ public abstract class BasePiece implements IRotator{
         this.maxRotations = maxRotations-1;
     }
 
-    protected int getMaxRotations() {
+    public int getMaxRotations() {
         return maxRotations;
     }
 
@@ -38,11 +38,11 @@ public abstract class BasePiece implements IRotator{
 
     private void checkRotationLimit(){
         if(rotation < 0){
-            setMaxRotations(-(rotation % maxRotations));
+            setRotation(maxRotations);
         }
 
         if(rotation > maxRotations){
-            setMaxRotations(rotation % maxRotations);
+            setRotation(0);
         }
     }
 }
