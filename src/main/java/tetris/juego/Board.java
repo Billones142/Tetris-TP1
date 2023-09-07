@@ -18,8 +18,8 @@ public class Board {
     private static char X_CHAR= 'x';
     
 
-    private ArrayList<String> matrix;
-    private ArrayList<BasePiece> pieces;
+    private ArrayList<String> matrix= new ArrayList<String>();
+    private ArrayList<BasePiece> pieces= new ArrayList<BasePiece>();
 
     private int lastActivePieceIndex;
     private int lastActivePieceYLine;
@@ -175,7 +175,12 @@ public class Board {
     }
 
     public void moveDownActivePiece(){  //AGREGAR DESPUES: chequeo de colision
+
         BasePiece piece= getPieces(this.lastActivePieceIndex);
+        String[] pieceMatrix= piece.getMatrix();
+        int width= countWidth(piece);
+        int height= countHeight(piece);
+        int positionX= 0;
 
         for(int y= this.lastActivePieceYLine; y < this.getMatrix().size() ;y++){ // borra todos los espacios donde esta la pieza activa
             String lineaRemplazo= new String(),lineaOriginal= this.getMatrix(y);
@@ -184,12 +189,24 @@ public class Board {
                     lineaRemplazo.concat(EMPTY_STRING+lineaOriginal.charAt(i));
                 }else{
                     lineaRemplazo.concat(EMPTY_STRING);
+                    if(y == this.getMatrix().size()){
+                        positionX= i;
+                    }
                 }
             }
         }
 
         for(int i= 0; i < 0 ; i++){  //vuelve a colocar la pieza activa
-            
+            for(int x= 0 ; x < width ; x++){
+            for(int y= height; y > 0 ; y--){
+                int randomPositionXLine= positionX;
+                if(pieceMatrix[y].charAt(x) != SPACE_CHAR){
+                    randomPositionXLine++;
+                }else{
+                    changeStringRange(randomPositionXLine, this.getMatrix(y), "x");  // agrega la fila de la pieza activa
+                }
+            }
+        }
         }
     }
 
