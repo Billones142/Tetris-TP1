@@ -41,44 +41,43 @@ public class PieceL extends BasePiece{
         return value;
         }
 
-    String[][] matrixUp=  {{"    ",
-                            "L   ",
-                            "L   ",
-                            "LL  "
-                            },{
-                            "    ",
-                            " L  ",
-                            " L  ",
-                            "LL  "}};
+    final static String[][] matrixUp= {{"    ",
+                                        "L   ",
+                                        "L   ",
+                                        "LL  "
+                                        },{
+                                        "    ",
+                                        " L  ",
+                                        " L  ",
+                                        "LL  "}};
     
-    String[][] matrixRight= {{
-                            "    ",
-                            "    ",
-                            "LLL ",
-                            "L   "
-                            },{
-                            "    ",
-                            "    ",
-                            "L   ",
-                            "LLL "}};
+    final static String[][] matrixRight=  {{"    ",
+                                            "    ",
+                                            "LLL ",
+                                            "L   "
+                                            },{
+                                            "    ",
+                                            "    ",
+                                            "L   ",
+                                            "LLL "}};
     
-    String[][] matrixDown={{"    ",
-                            "LL  ",
-                            " L  ",
-                            " L  "
-                            },{
-                            "    ",
-                            "LL  ",
-                            "L   ",
-                            "L   "}};
+    final static String[][] matrixDown=   {{"    ",
+                                            "LL  ",
+                                            " L  ",
+                                            " L  "
+                                            },{
+                                            "    ",
+                                            "LL  ",
+                                            "L   ",
+                                            "L   "}};
     
-    String[][] matrixLeft={{"    ",
-                            "    ",
-                            "  L ",
-                            "LLL "
-                            },{
-                            "    ",
-                            "    ",
-                            "LLL ",
-                            "  L "}};
+    final static String[][] matrixLeft=   {{"    ",
+                                            "    ",
+                                            "  L ",
+                                            "LLL "
+                                            },{
+                                            "    ",
+                                            "    ",
+                                            "LLL ",
+                                            "  L "}};
 }

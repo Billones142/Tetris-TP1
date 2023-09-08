@@ -1,9 +1,18 @@
 package tetris.juego;
 
 import tetris.Interfaces.IRotator;
+import tetris.Interfaces.PieceGetMatrix;
 
-public abstract class BasePiece implements IRotator{
+public abstract class BasePiece implements IRotator, PieceGetMatrix{
     private int rotation,maxRotations;
+    private boolean hasCollided;
+
+    public BasePiece() {
+        super();
+        setHasCollided(false);
+    }
+
+    //*************** INICIO ENCAPSULACION ***************\\
 
     protected void setRotation(int state) {
         this.rotation = state;
@@ -13,6 +22,7 @@ public abstract class BasePiece implements IRotator{
         return rotation;
     }
 
+    @Override
     public String[] getMatrix() {
         String[] matrix= {"",""};
         return matrix;
@@ -25,6 +35,16 @@ public abstract class BasePiece implements IRotator{
     public int getMaxRotations() {
         return maxRotations;
     }
+
+    protected void setHasCollided(boolean hasCollided) {
+        this.hasCollided = hasCollided;
+    }
+
+    public boolean getHasCollided(){
+        return hasCollided;
+    }
+
+    //*************** FIN ENCAPSULACION ***************\\
 
     public void rotateLeft(){
         setRotation(getRotation()-1);
@@ -44,5 +64,9 @@ public abstract class BasePiece implements IRotator{
         if(rotation > maxRotations){
             setRotation(0);
         }
+    }
+
+    public void collided(){
+        setHasCollided(true);
     }
 }

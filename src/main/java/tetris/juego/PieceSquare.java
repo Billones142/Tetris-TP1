@@ -10,8 +10,8 @@ public class PieceSquare extends BasePiece{
         return matrix;
     }
 
-    String[] matrix={"    ",
-                    "    ",
-                    "ZZ  ",
-                    "ZZ  "};
+    final static String[] matrix=  {"    ",
+                                    "    ",
+                                    "ZZ  ",
+                                    "ZZ  "};
 }

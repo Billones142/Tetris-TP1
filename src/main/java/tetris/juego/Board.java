@@ -1,6 +1,9 @@
 package tetris.juego;
 
 import java.util.Random;
+
+import tetris.Interfaces.PieceGetMatrix;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,13 +12,16 @@ public class Board {
     public Board() {
         super();
         for (int i=0 ; i < 20 ; i++){
-            matrix.add( "          ");  //+1?
+            matrix.add( "          ");
         }
     }
-    private static String EMPTY_STRING= "";
-    private static String SPACE_X4= "    ";
-    private static char SPACE_CHAR= ' ';
-    private static char X_CHAR= 'x';
+
+    // final: constante que no se puede modificar(inmutable)
+    // static: todas las clases del mismo tipo acceden a la misma ubicacion
+    private final static String EMPTY_STRING= "";
+    private final static String SPACE_X4= "    ";
+    private final static char SPACE_CHAR= ' ';
+    private final static char X_CHAR= 'x';
     
 
     private ArrayList<String> matrix= new ArrayList<String>();
@@ -43,7 +49,7 @@ public class Board {
         return this.pieces;
     }
 
-    private BasePiece getPieces(int index){ // accede a una pieza de la matrix mediante un indice
+    private PieceGetMatrix getPieces(int index){ // accede a una pieza de la matrix mediante un indice
         return this.pieces.get(index);
     }
 
@@ -73,10 +79,10 @@ public class Board {
         int index= getPieces().size();
         setPieces(index, piece);;  //+1?
         lastActivePieceIndex= index;
-        setPieceOnBoard(index);
+        setNewPieceOnBoard(index);
     }
 
-    private int countHeight(BasePiece piece){
+    private int countHeight(PieceGetMatrix piece){
         int lineCount= 0;
 
         for(int i= 3; i > 0 ; i--){ // contar altura de la figura
@@ -88,7 +94,7 @@ public class Board {
         return lineCount;
     }
 
-    private int countWidth(BasePiece piece){
+    private int countWidth(PieceGetMatrix piece){
         int width= 0;
 
         for(int j= 3; j > 0 ; j--){  // contar anchura de la figura
@@ -118,15 +124,15 @@ public class Board {
         return String.valueOf(strArray);
     }
 
-    private void setPieceOnBoard(int index){     //AGREGAR DESPUES: chequear que no halla colision donde se colocan las piezas
-        BasePiece piece= getPieces(index);
-        int height= countHeight(piece);
-        int width= countWidth(piece);
+    private void setNewPieceOnBoard(int index){     // TODO: chequear que no halla colision donde se colocan las piezas
+        PieceGetMatrix piece= getPieces(index);
+        int pieceHeight= countHeight(piece);
+        int pieceWidth= countWidth(piece);
         String[] pieceMatrix= piece.getMatrix();
-        int randomPositionX= (int)Math.random() * (10 - width);
+        int randomPositionX= (int)Math.random() * (10 - pieceWidth);
 
-        for(int x= 0 ; x < width ; x++){
-            for(int y= height; y > 0 ; y--){
+        for(int x= 0 ; x < pieceWidth ; x++){
+            for(int y= pieceHeight; y > 0 ; y--){
                 int randomPositionXLine= randomPositionX;
                 if(pieceMatrix[y].charAt(x) != SPACE_CHAR){
                     randomPositionXLine++;
@@ -135,7 +141,7 @@ public class Board {
                 }
             }
         }
-        lastActivePieceYLine= height;
+        lastActivePieceYLine= pieceHeight;
     }
 
 
@@ -174,16 +180,23 @@ public class Board {
             return false;
     }
 
-    public void moveDownActivePiece(){  //AGREGAR DESPUES: chequeo de colision
+    public void moveDownActivePiece(){  //TODO: chequeo de colision
 
-        BasePiece piece= getPieces(this.lastActivePieceIndex);
+        PieceGetMatrix piece= getPieces(this.lastActivePieceIndex);
         String[] pieceMatrix= piece.getMatrix();
         int width= countWidth(piece);
         int height= countHeight(piece);
         int positionX= 0;
 
+        if(hasCollided(height)){
+            throw new ArithmeticException();
+        }
+
         for(int y= this.lastActivePieceYLine; y < this.getMatrix().size() ;y++){ // borra todos los espacios donde esta la pieza activa
-            String lineaRemplazo= new String(),lineaOriginal= this.getMatrix(y);
+
+            String lineaRemplazo= new String(),
+                lineaOriginal= this.getMatrix(y);
+
             for(int i= 0; i < lineaOriginal.length(); i++){
                 if(lineaOriginal.charAt(i) != X_CHAR){
                     lineaRemplazo.concat(EMPTY_STRING+lineaOriginal.charAt(i));
@@ -198,15 +211,15 @@ public class Board {
 
         for(int i= 0; i < 0 ; i++){  //vuelve a colocar la pieza activa
             for(int x= 0 ; x < width ; x++){
-            for(int y= height; y > 0 ; y--){
-                int randomPositionXLine= positionX;
-                if(pieceMatrix[y].charAt(x) != SPACE_CHAR){
-                    randomPositionXLine++;
-                }else{
+                for(int y= height; y > 0 ; y--){
+                    int randomPositionXLine= positionX;
+                    if(pieceMatrix[y].charAt(x) != SPACE_CHAR){
+                        randomPositionXLine++;
+                    }else{
                     changeStringRange(randomPositionXLine, this.getMatrix(y), "x");  // agrega la fila de la pieza activa
+                    }
                 }
             }
-        }
         }
     }
 

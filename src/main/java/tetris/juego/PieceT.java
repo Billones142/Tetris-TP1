@@ -34,23 +34,23 @@ public class PieceT extends BasePiece{
         return value;
         }
 
-    String[] matrixUp= {"    ",
-                        "    ",
-                        "TTT ",
-                        " T  "};
+    final static String[] matrixUp={"    ",
+                                    "    ",
+                                    "TTT ",
+                                    " T  "};
     
-    String[] matrixRight=  {"    ",
-                            " T  ",
-                            "TT  ",
-                            " T  "};
+    final static String[] matrixRight= {"    ",
+                                        " T  ",
+                                        "TT  ",
+                                        " T  "};
     
-    String[] matrixDown=   {"    ",
-                            "    ",
-                            " T  ",
-                            "TTT "};
+    final static String[] matrixDown=  {"    ",
+                                        "    ",
+                                        " T  ",
+                                        "TTT "};
     
-    String[] matrixLeft=   {"    ",
-                            "T   ",
-                            "TT  ",
-                            "T   "};
+    final static String[] matrixLeft=  {"    ",
+                                        "T   ",
+                                        "TT  ",
+                                        "T   "};
 }
