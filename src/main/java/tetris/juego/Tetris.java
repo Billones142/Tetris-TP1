@@ -2,6 +2,8 @@ package tetris.juego;
 
 public class Tetris {
     public Clock clock = new Clock();
+    private Board board = new Board();
+    
     
 
     public void start(){ //TODO
@@ -12,15 +14,16 @@ public class Tetris {
 
     }
 
-    public rotateLeft(){ //TODO
+    public void rotateLeft(){ //TODO
 
     }
 
-    public rotateRight(){ //TODO
+    public void rotateRight(){ //TODO
 
     }
 
     public void tick(){ 
         clock.tick();
+        board.
     }
 }

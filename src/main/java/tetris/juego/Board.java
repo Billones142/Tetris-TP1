@@ -19,6 +19,7 @@ public class Board {
     // final: constante que no se puede modificar(inmutable)
     // static: todas las clases del mismo tipo acceden a la misma ubicacion
     private final static String EMPTY_STRING= "";
+    private final static String SPACE_STRING= " ";
     private final static String SPACE_X4= "    ";
     private final static char SPACE_CHAR= ' ';
     private final static char X_CHAR= 'x';
@@ -30,7 +31,7 @@ public class Board {
     private int lastActivePieceIndex;
     private int lastActivePieceYLine;
 
-    //           Inicio encapsulacion           //
+    //************** Inicio encapsulacion **************//
 
     public String getMatrix(int index) { // accede a una fila de la matrix mediante un indice
         return matrix.get(index);
@@ -49,7 +50,7 @@ public class Board {
         return this.pieces;
     }
 
-    private PieceGetMatrix getPieces(int index){ // accede a una pieza de la matrix mediante un indice
+    private BasePiece getPieces(int index){ // accede a una pieza de la matrix mediante un indice
         return this.pieces.get(index);
     }
 
@@ -73,7 +74,7 @@ public class Board {
         this.lastActivePieceYLine = lastActivePieceYLine;
     }
 
-    //           Fin encapsulacion           //
+    //************** Fin encapsulacion **************//
 
     public void addPiece(BasePiece piece){
         int index= getPieces().size();
@@ -141,7 +142,7 @@ public class Board {
                 }
             }
         }
-        lastActivePieceYLine= pieceHeight;
+        setLastActivePieceIndex(pieceHeight);
     }
 
 
@@ -182,26 +183,27 @@ public class Board {
 
     public void moveDownActivePiece(){  //TODO: chequeo de colision
 
-        PieceGetMatrix piece= getPieces(this.lastActivePieceIndex);
+        BasePiece piece= getPieces(this.lastActivePieceIndex);
         String[] pieceMatrix= piece.getMatrix();
         int width= countWidth(piece);
         int height= countHeight(piece);
         int positionX= 0;
 
-        if(hasCollided(height)){
-            throw new ArithmeticException();
+        if(hasCollided(getLastActivePieceYLine())){
+            piece.collided();
+            throw new ArithmeticException("la pieza colisionó");
         }
 
-        for(int y= this.lastActivePieceYLine; y < this.getMatrix().size() ;y++){ // borra todos los espacios donde esta la pieza activa
+        for(int y= getLastActivePieceYLine(); y < this.getMatrix().size() ;y++){ // borra todos los espacios donde esta la pieza activa
 
-            String lineaRemplazo= new String(),
-                lineaOriginal= this.getMatrix(y);
+            String  lineaRemplazo= new String(),
+                    lineaOriginal= this.getMatrix(y);
 
             for(int i= 0; i < lineaOriginal.length(); i++){
                 if(lineaOriginal.charAt(i) != X_CHAR){
                     lineaRemplazo.concat(EMPTY_STRING+lineaOriginal.charAt(i));
                 }else{
-                    lineaRemplazo.concat(EMPTY_STRING);
+                    lineaRemplazo.concat(SPACE_STRING);
                     if(y == this.getMatrix().size()){
                         positionX= i;
                     }
