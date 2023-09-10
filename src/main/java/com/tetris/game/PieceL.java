@@ -42,7 +42,7 @@ public class PieceL extends BasePiece{
         return value;
         }
 
-    final static String[][] matrixUp= {{"    ",
+    private final static String[][] matrixUp= {{"    ",
                                         "L   ",
                                         "L   ",
                                         "LL  "
@@ -52,7 +52,7 @@ public class PieceL extends BasePiece{
                                         " L  ",
                                         "LL  "}};
     
-    final static String[][] matrixRight=  {{"    ",
+    private final static String[][] matrixRight=  {{"    ",
                                             "    ",
                                             "LLL ",
                                             "L   "
@@ -62,7 +62,7 @@ public class PieceL extends BasePiece{
                                             "L   ",
                                             "LLL "}};
     
-    final static String[][] matrixDown=   {{"    ",
+    private final static String[][] matrixDown=   {{"    ",
                                             "LL  ",
                                             " L  ",
                                             " L  "
@@ -72,7 +72,7 @@ public class PieceL extends BasePiece{
                                             "L   ",
                                             "L   "}};
     
-    final static String[][] matrixLeft=   {{"    ",
+    private final static String[][] matrixLeft=   {{"    ",
                                             "    ",
                                             "  L ",
                                             "LLL "

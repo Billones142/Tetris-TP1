@@ -32,12 +32,12 @@ public class PieceStick extends BasePiece{
         return value;
         }
     
-    final static String[] matrixHorizontal={"    ",
+    private final static String[] matrixHorizontal={"    ",
                                             "    ",
                                             "    ",
                                             "SSSS"};
 
-    final static String[] matrixVertical=  {"S   ",
+    private final static String[] matrixVertical=  {"S   ",
                                             "S   ",
                                             "S   ",
                                             "S   "};

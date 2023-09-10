@@ -17,7 +17,7 @@ public class PieceSquare extends BasePiece{
         return matrix;
     }
 
-    final static String[] matrix=  {"    ",
+    private final static String[] matrix=  {"    ",
                                     "    ",
                                     "ZZ  ",
                                     "ZZ  "};

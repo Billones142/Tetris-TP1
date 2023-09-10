@@ -40,16 +40,21 @@ public class Board {
         this.matrix.add(index,value);
     }
 
-    private ArrayList<BasePiece> getPieces(){  // metodo para acceder a los metodos de ArrayList
+    public ArrayList<BasePiece> getPieces(){  // metodo para acceder a los metodos de ArrayList
         return this.pieces;
     }
 
-    private BasePiece getPieces(int index){ // accede a una pieza de la matrix mediante un indice
-        return this.pieces.get(index);
+    public BasePiece getPieces(int index){ // accede a una pieza de la matrix mediante un indice
+        try {
+            return this.pieces.get(index);
+        } catch (Exception e) {
+            throw new ArrayIndexOutOfBoundsException("no existe ese elemento o no hay ningun elemento en la lista");
+        }
+        
     }
 
-    private void setPieces(int index, BasePiece piece) {  //
-        this.pieces.set(index, piece);
+    private void setPieces(BasePiece piece) {  //
+        pieces.add(piece);;
     }
 
     public int getLastActivePieceIndex() {
@@ -100,8 +105,8 @@ public class Board {
 
     public void addPiece(BasePiece piece){
         int index= getPieces().size();
-        setPieces(index, piece);;  //+1?
-        lastActivePieceIndex= index;
+        setPieces(piece);
+        setLastActivePieceIndex(index);
         setNewPieceOnBoard(index);
     }
 
@@ -133,21 +138,14 @@ public class Board {
         return width;
     }
 
-    private String changeStringRange(int beginingIndex, String originalString, String addedString){ // modifica una parte de un String agregando otro, 
-        if( originalString.length() - beginingIndex < addedString.length()){
-            throw new ArrayIndexOutOfBoundsException("la cadena no entra en el lugar especificado");
-        }
+    public String changeStringRange(int beginingIndex, String originalString, String addedString){ // modifica una parte de un String agregando otro, 
+        StringBuilder original= new StringBuilder(originalString);
 
-        char[] strArray = originalString.toCharArray();
-
-        for(int x = 0; x < addedString.length(); x++) {
-            strArray[x] = addedString.charAt(x);
-        }
-
-        return String.valueOf(strArray);
+        original.replace(beginingIndex, addedString.length()+ beginingIndex, addedString);
+        return original.toString();
     }
 
-    private void setNewPieceOnBoard(int index){
+    public void setNewPieceOnBoard(int index){
         setNewPieceOnBoard(index, (int)(Math.random() * (10 - countWidth(getPieces(index)))));
     }
 
@@ -254,5 +252,11 @@ public class Board {
         return false;
     }
     
+    public void turnActivePieceLeft(){
 
+    }
+
+    public void turnActivePieceRight(){
+        
+    }
 }

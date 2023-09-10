@@ -41,22 +41,22 @@ public class PieceT extends BasePiece{
         return value;
         }
 
-    final static String[] matrixUp={"    ",
+    private final static String[] matrixUp={"    ",
                                     "    ",
                                     "TTT ",
                                     " T  "};
     
-    final static String[] matrixRight= {"    ",
+    private final static String[] matrixRight= {"    ",
                                         " T  ",
                                         "TT  ",
                                         " T  "};
     
-    final static String[] matrixDown=  {"    ",
+    private final static String[] matrixDown=  {"    ",
                                         "    ",
                                         " T  ",
                                         "TTT "};
     
-    final static String[] matrixLeft=  {"    ",
+    private final static String[] matrixLeft=  {"    ",
                                         "T   ",
                                         "TT  ",
                                         "T   "};

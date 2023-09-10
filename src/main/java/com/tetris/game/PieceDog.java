@@ -38,7 +38,7 @@ public class PieceDog extends BasePiece{
         return value;
         }
 
-    final static String[][] matrixHorizontal= {{"    ",
+    private final static String[][] matrixHorizontal= {{"    ",
                                                 "    ",
                                                 " DD ",
                                                 "DD  "
@@ -50,7 +50,7 @@ public class PieceDog extends BasePiece{
     }
     };
 
-    final static String[][] matrixVertical=   {{"    ",
+    private final static String[][] matrixVertical=   {{"    ",
                                                 "D   ",
                                                 "DD  ",
                                                 " D  "
