@@ -260,7 +260,7 @@ public class Board {
         return false;
     }
     
-    private int[] getActivePieceLocation(){
+    public int[] getActivePieceLocation(){
         int yPiecePosition= -1;
         int xPiecePosition= -1;
 

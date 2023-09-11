@@ -23,6 +23,14 @@
 hs_err_pid*
 replay_pid*.class
 
-target/
+# target
+target/classes
+target/generated-sources
+target/generated-test-sources
+target/maven-status
+target/surefire-reports
+target/test-classes
+
 .vscode/
 *.workspace
+

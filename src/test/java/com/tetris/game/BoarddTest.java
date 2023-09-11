@@ -45,6 +45,9 @@ public class BoarddTest {
 
         board.addPiece(dog);
         assertEquals(board.getPieces(0),dog);
+        int[] activePieceLocation= board.getActivePieceLocation();
+        assertEquals(false,activePieceLocation[0] != -1); // x
+        assertEquals(false,activePieceLocation[1] != -1); // y
     }
 
     @Test
