@@ -30,6 +30,7 @@ public class Board {
     private int lastActivePieceIndex;
     private int lastActivePieceYLine;
     private int lineasComletadas;
+    private boolean nextToWall;
 
     //************** Inicio encapsulacion **************//
 
@@ -82,6 +83,14 @@ public class Board {
         return lineasComletadas;
     }
 
+    private boolean getNextToWall(){
+        return nextToWall;
+    }
+
+    public void setNextToWall(boolean nextToWall) {
+        this.nextToWall = nextToWall;
+    }
+
     //************** Fin encapsulacion **************//
 
     public void addPiece(){
@@ -113,10 +122,13 @@ public class Board {
     }
 
     public void addPiece(BasePiece piece){
-        int index= getPieces().size();
-        setPieces(piece);
-        setLastActivePieceIndex(index);
-        setNewPieceOnBoard(index);
+        if(!noSpaceLeft()){
+            int index= getPieces().size();
+            setPieces(piece);
+            setLastActivePieceIndex(index);
+            setNextToWall(false);
+            setNewPieceOnBoard(index);
+        }
     }
 
     private int countHeight(BasePiece piece){
@@ -164,6 +176,9 @@ public class Board {
         int pieceWidth= countWidth(piece);
         String[] pieceMatrix= piece.getMatrix();
 
+        if(getMatrix(0).length()-getActivePieceLocation()[1] < pieceWidth){
+            setNextToWall(true);
+        }
 
         for(int x= 0 ; x < pieceWidth ; x++){
             for(int y= pieceHeight; y > 0 ; y--){
@@ -176,6 +191,7 @@ public class Board {
             }
         }
         setLastActivePieceIndex(pieceHeight);
+        contarLineasCompletas();
     }
 
     
@@ -204,7 +220,7 @@ public class Board {
     }
 
     // returns true if colided
-    public boolean moveDownActivePiece(){  //TODO: chequeo de colision
+    public boolean moveDownActivePiece(){
 
         BasePiece piece= getPieces(this.lastActivePieceIndex);
         String[] pieceMatrix= piece.getMatrix();
@@ -214,6 +230,13 @@ public class Board {
 
         if(willCrash((byte)0)){
             piece.collided();
+            for (int y = 0; y < getMatrix().size(); y++) {
+                for (int x = 0; x < getMatrix(y).length(); x++) {
+                    if(getMatrix(y).charAt(x) == X_CHAR){
+                        setMatrix(y, changeStringRange(x, getMatrix(y), EMPTY_STRING+MAYUS_X_CHAR));
+                    }
+                }
+            }
             return true;
         }
 
@@ -221,19 +244,9 @@ public class Board {
 
         for(int y= getLastActivePieceYLine(); y < this.getMatrix().size() ;y++){ // borra todos los espacios donde esta la pieza activa
 
-            String  lineaRemplazo= new String(),
-                    lineaOriginal= this.getMatrix(y);
-
-            for(int i= 0; i < lineaOriginal.length(); i++){
-                if(lineaOriginal.charAt(i) != X_CHAR){
-                    lineaRemplazo.concat(EMPTY_STRING+lineaOriginal.charAt(i));
-                }else{
-                    lineaRemplazo.concat(SPACE_STRING);
-                    if(y == this.getMatrix().size()){
-                        positionX= i;
-                    }
-                }
-            }
+        int[] position= getActivePieceLocation();
+        position[1]++;
+        reWriteActivePiece(position);
         }
 
         for(int i= 0; i < 0 ; i++){  //vuelve a colocar la pieza activa
@@ -249,6 +262,7 @@ public class Board {
             }
         }
 
+        contarLineasCompletas();;
         return false;
     }
     
@@ -268,10 +282,6 @@ public class Board {
         }
         int[] position= {xPiecePosition,yPiecePosition};
         return position;
-    }
-
-    private void reWriteActivePiece(){
-        reWriteActivePiece(getActivePieceLocation());
     }
 
     private void reWriteActivePiece(int[] location){ //se usa para reescribir la pieza en caso de una rotacion o movimiento (no chequea si hubo colision)
@@ -367,18 +377,29 @@ public class Board {
         return false;
     }
 
-    public void turnActivePieceLeft(){  //TODO: permitir rotar si esta al lado de una pared
+    public void turnActivePieceLeft(){
         int[] location= getActivePieceLocation();
         if (!willCrash((byte)1)) {
             getPieces(lastActivePieceIndex).rotateLeft();
+            if(getNextToWall()){
+                int newWidth= countWidth(getPieces(lastActivePieceIndex));
+                getPieces(lastActivePieceIndex).rotateLeft();
+                location[0]-= newWidth - countWidth(getPieces(lastActivePieceIndex));
+            }
             reWriteActivePiece(location);
         }
     }
 
-    public void turnActivePieceRight(){ //TODO: permitir rotar si esta al lado de una pared
+    public void turnActivePieceRight(){
         int[] location= getActivePieceLocation();
         if (!willCrash((byte)2)) {
             getPieces(lastActivePieceIndex).rotateRight();
+            if(getNextToWall()){
+                int newWidth= countWidth(getPieces(lastActivePieceIndex));
+                getPieces(lastActivePieceIndex).rotateLeft();
+                location[0]-= newWidth - countWidth(getPieces(lastActivePieceIndex));
+                getPieces(lastActivePieceIndex).rotateRight();
+            }
             reWriteActivePiece(location);
         }
     }

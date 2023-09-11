@@ -29,7 +29,7 @@ public class Tetris {
         tick();
     }
 
-    public String state(){ //TODO
+    public String state(){
         if(board.getLineasComletadas() >= getCantLineasParaGanar()){
             return "juego ganado";
         }else if(getGameLost()){

@@ -10,13 +10,13 @@ public class TetrisTest {
     @Test
     public void tetris_test()
     {
-        Tetris t= new Tetris();
+        Tetris t= new Tetris(3);
         assertNotNull(t);
     }
 
     @Test
     public void test(){
-        Tetris tetris= new Tetris();
+        Tetris tetris= new Tetris(3);
 
         
         for (int i = 0; i < 20; i++) {
