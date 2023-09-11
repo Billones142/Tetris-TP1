@@ -25,4 +25,12 @@ public class TetrisTest {
         }
         assertNotNull(tetris.board.getPieces());
     }
+
+    @Test
+    public void clockTest(){
+        long timeAntes= System.currentTimeMillis();
+        Tetris tetris = new Tetris(3);
+
+        assertEquals(true,tetris.clock.getTimeMiliseconds() < timeAntes);
+    }
 }
