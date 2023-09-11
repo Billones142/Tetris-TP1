@@ -13,7 +13,7 @@ public class Tetris {
     private boolean gameLost= false;
 
 
-    public boolean getGameLost(){
+    private boolean getGameLost(){
         return gameLost;
     }
 
@@ -34,6 +34,8 @@ public class Tetris {
             return "juego ganado";
         }else if(getGameLost()){
             return "juego perdido";
+        }else if(clock.getTicks() == 0){
+            return "juego no iniciado";
         }
         return "juego en curso";
     }

@@ -6,6 +6,18 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
+/*
+    Al menos 7 test
+
+addPiece()
+addPiece(BasePiece piece)
+moveDownActivePiece()
+turnActivePieceLeft()
+turnActivePieceRight()
+contarLineasCompletas()
+noSpaceLeft()
+ */
+
 public class BoarddTest {
     @Test
     public void board_new_test(){
@@ -27,36 +39,44 @@ public class BoarddTest {
     }
 
     @Test
-    public void changeStringRange_test(){
-        Board board = new Board();
-        
-        String original= "hola mundo";
-        String remplazo= "javaTest";
-
-        assertEquals("hola javaTest",board.changeStringRange(5, original, remplazo));
-    }
-
-    @Test
     public void addPiece_test(){
         Board board = new Board();
+        BasePiece dog= new PieceDog(0,0);
 
-        board.addPiece(new PieceDog(0,0));
-        assertNotNull(board.getPieces());
+        board.addPiece(dog);
+        assertEquals(board.getPieces(0),dog);
     }
 
     @Test
     public void moveDownPiece_test(){
         Board board = new Board();
 
-        board.addPiece(new PieceDog(0,0));
+        board.addPiece(new PieceL(0,0));
         
-        for (int i = 0; i < 20; i++) {
-            System.out.println(board.getMatrix(i));
-        }
 
         for (int i = 0; i < 19; i++) {
             board.moveDownActivePiece();
         }
         assertEquals(true,board.moveDownActivePiece());
+    }
+
+    @Test
+    public void turnActivePieceLeftTest(){ //TODO
+
+    }
+
+    @Test
+    public void turnActivePieceRight(){ //TODO
+
+    }
+
+    @Test
+    public void contarLineasCompletasTest(){ //TODO
+
+    }
+
+    @Test
+    public void noSpaceLeftTest(){ //TODO
+
     }
 }

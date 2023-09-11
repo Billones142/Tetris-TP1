@@ -94,7 +94,8 @@ public class Board {
     //************** Fin encapsulacion **************//
 
     public void addPiece(){
-        switch ((int)(Math.random() * 5)) {
+        int randomNumber= (int)(Math.random() * 5);
+        switch (randomNumber) {
             case 0:
                 addPiece(new PieceDog());
                 break;
@@ -113,10 +114,6 @@ public class Board {
 
             case 4:
                 addPiece(new PieceT());
-                break;
-
-        
-            default:
                 break;
         }
     }
@@ -145,17 +142,16 @@ public class Board {
 
     private int countWidth(BasePiece piece){
         int width= 0;
+        String[] pieceMatrix= piece.getMatrix();
 
-        for(int j= 3; j > 0 ; j--){  // contar anchura de la figura
-            for(int i= 3; i > 0 ; i--){
-                if(piece.getMatrix()[j].charAt(i) != SPACE_CHAR){
-                    break;
-                }else{
+        for(int x= 0; x < 4 ; x++){  // contar anchura de la figura
+            for(int y= 0; y < 4 ; y++){
+                if(pieceMatrix[y].charAt(x) != SPACE_CHAR){
                     width++;
+                    break;
                 }
             }
         }
-
         return width;
     }
 
@@ -166,11 +162,9 @@ public class Board {
         return original.toString();
     }
 
-    public void setNewPieceOnBoard(int index){
-        setNewPieceOnBoard(index, (int)(Math.random() * (10 - countWidth(getPieces(index)))));
-    }
-
-    private void setNewPieceOnBoard(int index, int randomPositionX){     
+    private void setNewPieceOnBoard(int index){    
+        int randomPositionX= (int)(Math.random() * (10 - countWidth(getPieces(index))));
+        
         BasePiece piece= getPieces(index);
         int pieceHeight= countHeight(piece);
         int pieceWidth= countWidth(piece);
@@ -196,7 +190,7 @@ public class Board {
 
     
 
-    public int eraseActivePiece(){
+    private int eraseActivePiece(){
         int positionX= 0;
 
         for(int y= getLastActivePieceYLine(); y < this.getMatrix().size() ;y++){ // borra todos los espacios donde esta la pieza activa
@@ -222,7 +216,7 @@ public class Board {
     // returns true if colided
     public boolean moveDownActivePiece(){
 
-        BasePiece piece= getPieces(this.lastActivePieceIndex);
+        BasePiece piece= getPieces(0);
         String[] pieceMatrix= piece.getMatrix();
         int width= countWidth(piece);
         int height= countHeight(piece);
@@ -242,7 +236,7 @@ public class Board {
 
         positionX= eraseActivePiece();
 
-        for(int y= getLastActivePieceYLine(); y < this.getMatrix().size() ;y++){ // borra todos los espacios donde esta la pieza activa
+        for(int y= getLastActivePieceYLine(); y < getMatrix().size() ;y++){ // borra todos los espacios donde esta la pieza activa
 
         int[] position= getActivePieceLocation();
         position[1]++;
@@ -270,13 +264,18 @@ public class Board {
         int yPiecePosition= -1;
         int xPiecePosition= -1;
 
-        for (int y = getMatrix().size(); y > 0; y++) { // loop para ver la posicion de la pieza
-            if(yPiecePosition == -1 && getMatrix(y).trim().contains((EMPTY_STRING+X_CHAR)) ){
-                yPiecePosition= y;
+        for (int yIndex = getMatrix().size() - 1; yIndex > 0; yIndex--) { // loop para ver la posicion de la pieza
+            boolean undefinedY= yPiecePosition == -1;
+            boolean lineContainsX= getMatrix(yIndex).trim().contains(("x"));
+            if(undefinedY && lineContainsX){
+                yPiecePosition= yIndex;
             }
-            for (int x = 0; x < getMatrix(y).length(); x++) {
-                if (xPiecePosition == -1) {
-                    xPiecePosition= x;
+
+            if (xPiecePosition == -1) {
+                for (int xIndex = 0; xIndex < getMatrix(yIndex).length() - 1; xIndex++) {
+                    if(getMatrix(yIndex).charAt(xIndex) == X_CHAR){
+                        xPiecePosition= xIndex;
+                    }
                 }
             }
         }
@@ -416,7 +415,7 @@ public class Board {
 
     public boolean noSpaceLeft() {
         for (int i = 0; i < 4; i++) {
-            if(getMatrix(i) == SPACE_X10){
+            if(getMatrix(i) != SPACE_X10){
                 return true;
             }
         }
