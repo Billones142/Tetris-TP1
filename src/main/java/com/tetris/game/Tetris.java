@@ -2,30 +2,60 @@ package com.tetris.game;
 
 public class Tetris {
     public Clock clock = new Clock();
-    private Board board = new Board();
-    
-    
+    public Board board = new Board();
+    private final int cantLineasParaGanar;
 
-    public void start(){ //TODO
-        
+    public Tetris(int lineasParaGanar) {
+        super();
+        cantLineasParaGanar= lineasParaGanar;
     }
 
-    public void state(){ //TODO
+    private boolean gameLost= false;
 
+
+    public boolean getGameLost(){
+        return gameLost;
     }
 
-    public void rotateLeft(){ //TODO
-
+    private void setGameLost(boolean finished) {
+        this.gameLost = finished;
     }
 
-    public void rotateRight(){ //TODO
+    public int getCantLineasParaGanar() {
+        return cantLineasParaGanar;
+    }
 
+    public void start(){
+        tick();
+    }
+
+    public String state(){ //TODO
+        if(board.getLineasComletadas() >= getCantLineasParaGanar()){
+            return "juego ganado";
+        }else if(getGameLost()){
+            return "juego perdido";
+        }
+        return "juego en curso";
+    }
+
+    public void rotateLeft(){
+        board.turnActivePieceLeft();
+    }
+
+    public void rotateRight(){
+        board.turnActivePieceRight();
     }
 
     public void tick(){ 
         clock.tick();
-        if(board.moveDownActivePiece()){
-            board.addPiece();
+        if (board.getLineasComletadas() < getCantLineasParaGanar()) {
+            if(board.moveDownActivePiece()){
+                if(board.noSpaceLeft()){
+                    setGameLost(true);
+                }else{
+                    board.addPiece();
+                }
+            }
         }
     }
 }

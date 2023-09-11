@@ -5,6 +5,8 @@ import java.util.ArrayList;
 public class Board {
     public Board() {
         super();
+        matrix= new ArrayList<String>();
+        pieces= new ArrayList<BasePiece>();
         for (int i=0 ; i < 20 ; i++){
             matrix.add( "          ");
         }
@@ -15,15 +17,19 @@ public class Board {
     private final static String EMPTY_STRING= "";
     private final static String SPACE_STRING= " ";
     private final static String SPACE_X4= "    ";
+    private final static String X_X10= "XXXXXXXXXX";
+    private final static String SPACE_X10= "          ";
     private final static char SPACE_CHAR= ' ';
     private final static char X_CHAR= 'x';
+    private final static char MAYUS_X_CHAR= 'X';
     
 
-    private ArrayList<String> matrix= new ArrayList<String>();
-    private ArrayList<BasePiece> pieces= new ArrayList<BasePiece>();
+    private ArrayList<String> matrix;
+    private ArrayList<BasePiece> pieces;
 
     private int lastActivePieceIndex;
     private int lastActivePieceYLine;
+    private int lineasComletadas;
 
     //************** Inicio encapsulacion **************//
 
@@ -45,12 +51,7 @@ public class Board {
     }
 
     public BasePiece getPieces(int index){ // accede a una pieza de la matrix mediante un indice
-        try {
-            return this.pieces.get(index);
-        } catch (Exception e) {
-            throw new ArrayIndexOutOfBoundsException("no existe ese elemento o no hay ningun elemento en la lista");
-        }
-        
+        return this.pieces.get(index);
     }
 
     private void setPieces(BasePiece piece) {  //
@@ -71,6 +72,14 @@ public class Board {
 
     public void setLastActivePieceYLine(int lastActivePieceYLine) {
         this.lastActivePieceYLine = lastActivePieceYLine;
+    }
+
+    private void setLineasComletadas(int lineasComletadas) {
+        this.lineasComletadas = lineasComletadas;
+    }
+
+    public int getLineasComletadas() {
+        return lineasComletadas;
     }
 
     //************** Fin encapsulacion **************//
@@ -169,40 +178,29 @@ public class Board {
         setLastActivePieceIndex(pieceHeight);
     }
 
+    
 
-    private boolean hasCollided(int index){
-        ArrayList<Integer> pointOfPosibleColition= new ArrayList<Integer>();
-        String upperString= this.getMatrix(index);
+    public int eraseActivePiece(){
+        int positionX= 0;
 
-            for(int i= 0; i < 10 ;i++){
-                if(upperString.charAt(i) == X_CHAR){
-                    pointOfPosibleColition.add(i);
+        for(int y= getLastActivePieceYLine(); y < this.getMatrix().size() ;y++){ // borra todos los espacios donde esta la pieza activa
+
+            String  lineaRemplazo= new String(),
+                    lineaOriginal= this.getMatrix(y);
+
+            for(int i= 0; i < lineaOriginal.length(); i++){
+                if(lineaOriginal.charAt(i) != X_CHAR){
+                    lineaRemplazo.concat(EMPTY_STRING+lineaOriginal.charAt(i));
+                }else{
+                    lineaRemplazo.concat(SPACE_STRING);
+                    if(y == this.getMatrix().size()){
+                        positionX= i;
+                    }
                 }
             }
-
-        return hasCollided(index, pointOfPosibleColition);
-    }
-
-    private boolean hasCollided(int index, ArrayList<Integer> pointOfPosibleColition){
-            if(index + 1 > 19){
-                return true;
-            }
-            String upperString= this.getMatrix(index);
-            String lowerString= this.getMatrix(index+1);
-
-            for(int i= 0; i < 10 ;i++){
-                if(upperString.charAt(i) == X_CHAR){
-                    pointOfPosibleColition.add(i);
-                }
-            }
-
-            for(int i= 0; i < pointOfPosibleColition.size(); i++){
-                if(lowerString.charAt(pointOfPosibleColition.get(i)) != X_CHAR){
-                    return true;
-                }
-            }
-
-            return false;
+        }
+        
+        return positionX;
     }
 
     // returns true if colided
@@ -212,12 +210,14 @@ public class Board {
         String[] pieceMatrix= piece.getMatrix();
         int width= countWidth(piece);
         int height= countHeight(piece);
-        int positionX= 0;
+        int positionX;
 
-        if(hasCollided(getLastActivePieceYLine())){
+        if(willCrash((byte)0)){
             piece.collided();
             return true;
         }
+
+        positionX= eraseActivePiece();
 
         for(int y= getLastActivePieceYLine(); y < this.getMatrix().size() ;y++){ // borra todos los espacios donde esta la pieza activa
 
@@ -252,11 +252,153 @@ public class Board {
         return false;
     }
     
-    public void turnActivePieceLeft(){
+    private int[] getActivePieceLocation(){
+        int yPiecePosition= -1;
+        int xPiecePosition= -1;
 
+        for (int y = getMatrix().size(); y > 0; y++) { // loop para ver la posicion de la pieza
+            if(yPiecePosition == -1 && getMatrix(y).trim().contains((EMPTY_STRING+X_CHAR)) ){
+                yPiecePosition= y;
+            }
+            for (int x = 0; x < getMatrix(y).length(); x++) {
+                if (xPiecePosition == -1) {
+                    xPiecePosition= x;
+                }
+            }
+        }
+        int[] position= {xPiecePosition,yPiecePosition};
+        return position;
     }
 
-    public void turnActivePieceRight(){
+    private void reWriteActivePiece(){
+        reWriteActivePiece(getActivePieceLocation());
+    }
+
+    private void reWriteActivePiece(int[] location){ //se usa para reescribir la pieza en caso de una rotacion o movimiento (no chequea si hubo colision)
+
+        String[] pieceMatrix= getPieces(lastActivePieceIndex).getMatrix();
+        int pieceHeight= countHeight(getPieces(lastActivePieceIndex));
+        int pieceWidth= countWidth(getPieces(lastActivePieceIndex));
+        eraseActivePiece(); // hace que no esté repetida la pieza, por lo que siempre tiene que hacerce a lo ultimo
+
+        for (int y = location[1]; y > location[1]+pieceHeight; y++) {
+            for (int x = location[0]; x < location[0]+pieceWidth; x++) {
+                setMatrix(y, changeStringRange(x, getMatrix(y), EMPTY_STRING+pieceMatrix[y].charAt(x)));
+            }
+        }
+    }
+
+    private boolean willCrash(byte rotate){ // 0: abajo, 1:rotacion izquierda, 2: rotacion derecha
+        BasePiece piece= getPieces(lastActivePieceIndex);
+        String[] pieceMatrix;
+        int[] position= getActivePieceLocation();
+        int pieceWidth;
+        int pieceHeight;
         
+        switch (rotate) {
+            case 0:
+                if(position[1] + 1 > 19){
+                return true;
+                }
+
+                ArrayList<Integer> pointOfPosibleColition= new ArrayList<Integer>();
+                String upperString= this.getMatrix(lastActivePieceIndex);
+
+                String lowerString= this.getMatrix(lastActivePieceIndex+1);
+
+                for(int i= 0; i < 10 ;i++){
+                    if(upperString.charAt(i) == X_CHAR){
+                        pointOfPosibleColition.add(i);
+                    }
+                }
+
+                for(int i= 0; i < pointOfPosibleColition.size(); i++){
+                    if(lowerString.charAt(pointOfPosibleColition.get(i)) != X_CHAR){
+                        return true;
+                    }
+                }
+
+                break;
+
+            case 1:
+                piece.rotateLeft();
+                pieceMatrix= piece.getMatrix();
+                pieceWidth= countWidth(piece);
+                pieceHeight= countHeight(piece);
+
+                if(10-position[0] < pieceWidth){ // toca la pared si gira?
+                    piece.rotateRight();
+                    return true;
+                }
+
+                for (int y = position[1]; y < position[1]-pieceWidth; y++) {
+                    for (int x = position[0]; x < position[0]-pieceHeight; x++) {
+                        if(pieceMatrix[y-position[1]].charAt(x-position[0]) == X_CHAR && getMatrix(y).charAt(x) == MAYUS_X_CHAR){
+                            return true;
+                        }
+                    }
+                }
+
+                piece.rotateRight();
+                break;
+
+            case 2:
+                piece.rotateRight();
+                pieceMatrix= piece.getMatrix();
+                pieceWidth= countWidth(piece);
+                pieceHeight= countHeight(piece);
+
+                if(10-position[0] < pieceWidth){ // toca la pared si gira?
+                    piece.rotateLeft();
+                    return true;
+                }
+
+                for (int y = position[1]; y < position[1]-pieceWidth; y++) {
+                    for (int x = position[0]; x < position[0]-pieceHeight; x++) {
+                        if(pieceMatrix[y-position[1]].charAt(x-position[0]) == X_CHAR && getMatrix(y).charAt(x) == MAYUS_X_CHAR){
+                            return true;
+                        }
+                    }
+                }
+
+                piece.rotateLeft();
+                break;
+        }
+        return false;
+    }
+
+    public void turnActivePieceLeft(){  //TODO: permitir rotar si esta al lado de una pared
+        int[] location= getActivePieceLocation();
+        if (!willCrash((byte)1)) {
+            getPieces(lastActivePieceIndex).rotateLeft();
+            reWriteActivePiece(location);
+        }
+    }
+
+    public void turnActivePieceRight(){ //TODO: permitir rotar si esta al lado de una pared
+        int[] location= getActivePieceLocation();
+        if (!willCrash((byte)2)) {
+            getPieces(lastActivePieceIndex).rotateRight();
+            reWriteActivePiece(location);
+        }
+    }
+
+    public void contarLineasCompletas(){
+        for (int i= 0; i < getMatrix().size() ; i++) {
+            if(getMatrix(i) == X_X10){
+                getMatrix().remove(i);
+                getMatrix().add(0,SPACE_X10);
+                setLineasComletadas(getLineasComletadas()+1);
+            }
+        }
+    }
+
+    public boolean noSpaceLeft() {
+        for (int i = 0; i < 4; i++) {
+            if(getMatrix(i) == SPACE_X10){
+                return true;
+            }
+        }
+        return false;
     }
 }
