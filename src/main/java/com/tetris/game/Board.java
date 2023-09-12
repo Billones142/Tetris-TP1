@@ -212,18 +212,20 @@ public class Board {
         int yPiecePosition= -1;
         int xPiecePosition= -1;
 
-        for (int yIndex =  0; yIndex < getMatrix().size(); yIndex++) { // loop para ver la posicion de la pieza
+        for (int yIndex =  0; yIndex < getMatrix().size(); yIndex++) { // loop para ver la posicion y de la pieza
             boolean undefinedY= yPiecePosition == -1;
             boolean lineContainsX= getMatrix(yIndex).trim().contains(("x"));
             if(undefinedY && lineContainsX){
                 yPiecePosition= yIndex;
             }
+        }
 
-            if (xPiecePosition == -1) {
-                for (int xIndex = 0; xIndex < getMatrix(yIndex).length(); xIndex++) {
-                    if(getMatrix(yIndex).charAt(xIndex) == X_CHAR){
-                        xPiecePosition= xIndex;
-                    }
+        for (int xIndex = 0; xIndex < 10; xIndex++) { // loop para ver la posicion x de la pieza
+            for (int yIndex = 0; yIndex < 20; yIndex++) {
+                boolean positionIsX= getMatrix(yIndex).charAt(xIndex) == X_CHAR;
+                boolean xPiecePositionUndefined= xPiecePosition == -1;
+                if ( xPiecePositionUndefined && positionIsX) {
+                    xPiecePosition= xIndex;
                 }
             }
         }
@@ -239,14 +241,14 @@ public class Board {
         int pieceWidth= countWidth(getPieces(getLastActivePieceIndex()));
         eraseActivePiece();
 
-        for (int yIndex = 3; yIndex >= 4-pieceHeight; yIndex--) {
+        for (int yIndex = 0; yIndex < 4; yIndex++) {
             for (int xIndex = 0; xIndex < pieceWidth; xIndex++) {
 
                 char charAtPosition= pieceMatrix[yIndex].charAt(xIndex);
                 boolean charAtPositionIsNotSpace= charAtPosition != SPACE_CHAR;
                 if (charAtPositionIsNotSpace) {
-                    int matrixXIndex= xIndex+location[0];
-                    int matrixYIndex= yIndex-pieceWidth+1+location[1];//TODO: arreglar
+                    int matrixXIndex= location[0] + xIndex;
+                    int matrixYIndex= location[1] - yIndex + pieceHeight;
                     setMatrix(matrixYIndex, changeStringRange(matrixXIndex, getMatrix(matrixYIndex), EMPTY_STRING+X_CHAR));
                 }
                 

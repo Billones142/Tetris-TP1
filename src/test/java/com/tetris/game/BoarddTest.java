@@ -42,7 +42,7 @@ public class BoarddTest {
     @Test
     public void addPiece_test(){
         Board board = new Board();
-        BasePiece dog= new PieceT(0,0);
+        BasePiece dog= new PieceStick(0);
 
         board.addPiece(dog);
         assertEquals(board.getPieces(0),dog);
