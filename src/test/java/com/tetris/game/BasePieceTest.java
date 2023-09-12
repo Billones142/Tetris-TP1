@@ -1,11 +1,8 @@
 package com.tetris.game;
 
 import static org.junit.Assert.*;
-//import static org.junit.jupiter.api.Assertions.*;  //JUnit 5
 
 import org.junit.Test;
-//import org.junit.jupiter.api.Test;  //JUnit 5
-
 
 
 public class BasePieceTest {

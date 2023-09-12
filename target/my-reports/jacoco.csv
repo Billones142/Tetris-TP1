@@ -6,6 +6,6 @@ Tetris,com.tetris.game,TestPiece,0,15,0,0,0,6,0,1,0,1
 Tetris,com.tetris.game,Tetris,37,49,8,4,16,14,10,5,4,5
 Tetris,com.tetris.game,PieceDog,0,161,1,2,0,22,1,5,0,4
 Tetris,com.tetris.game,PieceL,0,263,1,4,0,28,1,7,0,4
-Tetris,com.tetris.game,Board,656,330,87,35,129,76,63,31,12,18
+Tetris,com.tetris.game,Board,284,627,43,69,48,139,36,53,4,26
 Tetris,com.tetris.game,BasePiece,0,83,0,4,0,32,0,18,0,16
 Tetris,com.tetris.game,PieceSquare,0,44,0,0,0,10,0,4,0,4
