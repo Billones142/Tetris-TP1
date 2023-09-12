@@ -29,7 +29,7 @@ public class Board {
     private ArrayList<BasePiece> pieces;
 
     private int lastActivePieceYLine;
-    private int lineasComletadas;
+    private int lineCount;
     private boolean nextToWall;
 
     //************** Inicio encapsulacion **************//
@@ -71,12 +71,12 @@ public class Board {
         this.lastActivePieceYLine = lastActivePieceYLine;
     }
 
-    private void setLineasComletadas(int lineasComletadas) {
-        this.lineasComletadas = lineasComletadas;
+    private void setLineCount(int lineasComletadas) {
+        this.lineCount = lineasComletadas;
     }
 
-    public int getLineasComletadas() {
-        return lineasComletadas;
+    public int getLineCount() {
+        return lineCount;
     }
 
     private boolean getNextToWall(){
@@ -372,7 +372,7 @@ public class Board {
             if(getMatrix(i) == X_X10){
                 getMatrix().remove(i);
                 getMatrix().add(0,SPACE_X10);
-                setLineasComletadas(getLineasComletadas()+1);
+                setLineCount(getLineCount()+1);
             }
         }
     }

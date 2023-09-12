@@ -30,7 +30,7 @@ public class Tetris {
     }
 
     public String state(){
-        if(board.getLineasComletadas() >= getCantLineasParaGanar()){
+        if(board.getLineCount() >= getCantLineasParaGanar()){
             return "juego ganado";
         }else if(getGameLost()){
             return "juego perdido";
@@ -50,7 +50,7 @@ public class Tetris {
 
     public void tick(){ 
         clock.tick();
-        if (board.getLineasComletadas() < getCantLineasParaGanar()) {
+        if (board.getLineCount() < getCantLineasParaGanar()) {
             if(board.moveDownActivePiece()){
                 if(board.noSpaceLeft()){
                     setGameLost(true);
