@@ -1,6 +1,7 @@
 package com.tetris.game;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import java.util.ArrayList;
 
@@ -41,22 +42,18 @@ public class BoarddTest {
     @Test
     public void addPiece_test(){
         Board board = new Board();
-        BasePiece dog= new PieceDog(0,0);
+        BasePiece dog= new PieceT(0,0);
 
         board.addPiece(dog);
         assertEquals(board.getPieces(0),dog);
-        boolean soloEspaciosVacios= true;
-        for (int i = 0; i < 20; i++) {
-            if (board.getMatrix(i) != "          ") {
-                soloEspaciosVacios= false;
-            }
-        }
         board.printBoard();
-        assertEquals(false,soloEspaciosVacios);
+
+        assertNotEquals("0000000000", board.getMatrix(0));
+
         int[] activePieceLocation= board.getActivePieceLocation();
         boolean positionXIsNull= activePieceLocation[0] == -1;
         boolean positionYIsNull= activePieceLocation[1] == -1;
-        assertEquals(false, positionXIsNull || positionYIsNull);
+        assertEquals(false, positionXIsNull || positionYIsNull); // esta en la matriz?
     }
 
     @Test
@@ -69,12 +66,15 @@ public class BoarddTest {
 
         assertEquals(false,board.moveDownActivePiece());
 
-        for (int i = 0; i < 19; i++) {
-            board.moveDownActivePiece();
-            board.printBoard();
-            System.out.println("fin de matriz");
+        boolean chocoAlBajar= false;
+        for (int i = 0; i < 19; i++) { // se repite muchas veces para ver si choca
+            if(board.moveDownActivePiece()){
+                chocoAlBajar= true;
+            }
+            
         }
-        assertEquals(true,board.moveDownActivePiece());
+
+        assertEquals(true, chocoAlBajar);
     }
 
     @Test

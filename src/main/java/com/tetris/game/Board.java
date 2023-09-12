@@ -114,7 +114,7 @@ public class Board {
         }
     }
 
-    public void addPiece(BasePiece piece,int locationX){
+    public void addPiece(BasePiece piece,int locationX){ //TODO:que no se pueda ejecutar si hay una pieza activa
         if(!noSpaceLeft()){
             setPieces(piece);
             setNextToWall(false);
@@ -125,7 +125,7 @@ public class Board {
         }
     }
 
-    public void addPiece(BasePiece piece){
+    public void addPiece(BasePiece piece){ //TODO:que no se pueda ejecutar si hay una pieza activa
         if(!noSpaceLeft()){
             setPieces(piece);
             setNextToWall(false);
@@ -173,8 +173,8 @@ public class Board {
     }
 
     private void eraseActivePiece(){
-        for (int y = 0; y < getMatrix().size() - 1; y++) {
-            for (int x = 0; x < getMatrix(y).length() - 1; x++) {
+        for (int y = 0; y < getMatrix().size(); y++) {
+            for (int x = 0; x < getMatrix(y).length(); x++) {
                 if (getMatrix(y).charAt(x) == X_CHAR) {
                     setMatrix(y, changeStringRange(x, getMatrix(y), SPACE_STRING));
                 }
@@ -186,7 +186,7 @@ public class Board {
     public boolean moveDownActivePiece(){
         BasePiece piece= getPieces(getLastActivePieceIndex());
 
-        if(willCrash((byte)0)){
+        if(willCrash((byte)0)){  // si la pieza choca...
             piece.collided();
             for (int y = 0; y < getMatrix().size(); y++) { // cambia todos lo caracteres x por X
                 for (int x = 0; x < getMatrix(y).length(); x++) {
@@ -202,17 +202,17 @@ public class Board {
         int[] location= getActivePieceLocation();
         location[1]++;
 
-        reWriteActivePiece(location);
+        reWriteActivePiece(location); // reescribir la pieza abajo
 
         contarLineasCompletas();
         return false;
     }
     
-    public int[] getActivePieceLocation(){
+    public int[] getActivePieceLocation(){ //TODO: ver en caso que sea T
         int yPiecePosition= -1;
         int xPiecePosition= -1;
 
-        for (int yIndex = getMatrix().size() - 1; yIndex > 0; yIndex--) { // loop para ver la posicion de la pieza
+        for (int yIndex =  0; yIndex < getMatrix().size(); yIndex++) { // loop para ver la posicion de la pieza
             boolean undefinedY= yPiecePosition == -1;
             boolean lineContainsX= getMatrix(yIndex).trim().contains(("x"));
             if(undefinedY && lineContainsX){
@@ -220,13 +220,14 @@ public class Board {
             }
 
             if (xPiecePosition == -1) {
-                for (int xIndex = 0; xIndex < getMatrix(yIndex).length() - 1; xIndex++) {
+                for (int xIndex = 0; xIndex < getMatrix(yIndex).length(); xIndex++) {
                     if(getMatrix(yIndex).charAt(xIndex) == X_CHAR){
                         xPiecePosition= xIndex;
                     }
                 }
             }
         }
+        
         int[] position= {xPiecePosition,yPiecePosition};
         return position;
     }
@@ -236,16 +237,16 @@ public class Board {
         String[] pieceMatrix= getPieces(getLastActivePieceIndex()).getMatrix();
         int pieceHeight= countHeight(getPieces(getLastActivePieceIndex()));
         int pieceWidth= countWidth(getPieces(getLastActivePieceIndex()));
-        eraseActivePiece(); // hace que no esté repetida la pieza, por lo que siempre tiene que hacerce a lo ultimo
+        eraseActivePiece();
 
-        for (int yIndex = pieceHeight; yIndex > 0; yIndex--) {
+        for (int yIndex = 3; yIndex >= 4-pieceHeight; yIndex--) {
             for (int xIndex = 0; xIndex < pieceWidth; xIndex++) {
 
                 char charAtPosition= pieceMatrix[yIndex].charAt(xIndex);
                 boolean charAtPositionIsNotSpace= charAtPosition != SPACE_CHAR;
                 if (charAtPositionIsNotSpace) {
                     int matrixXIndex= xIndex+location[0];
-                    int matrixYIndex= yIndex+location[1];
+                    int matrixYIndex= yIndex-pieceWidth+1+location[1];//TODO: arreglar
                     setMatrix(matrixYIndex, changeStringRange(matrixXIndex, getMatrix(matrixYIndex), EMPTY_STRING+X_CHAR));
                 }
                 
@@ -380,8 +381,18 @@ public class Board {
     }
 
     public void printBoard(){
-        for (int i = 0; i < getMatrix().size() - 1; i++) {
+        for (int i = 0; i < getMatrix().size(); i++) {
             System.out.println(getMatrix(i));
         }
+    }
+
+    public boolean pieceActiveOnBoard(){ //TODO: implementar: addPiece, MoveDowm, ...
+        for (int yIndex = 0; yIndex < getMatrix().size(); yIndex++) {
+            boolean hayXActivaEnLaLinea= getMatrix(yIndex).trim().contains("x");
+            if(hayXActivaEnLaLinea){
+                return true;
+            }
+        }
+        return false;
     }
 }
