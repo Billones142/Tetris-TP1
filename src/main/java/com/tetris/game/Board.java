@@ -198,21 +198,23 @@ public class Board {
             return true;
         }
 
-
-        int[] location= getActivePieceLocation();
+        if (pieceActiveOnBoard()) {
+            int[] location= getActivePieceLocation();
         location[1]++;
 
         reWriteActivePiece(location); // reescribir la pieza abajo
 
         contarLineasCompletas();
         return false;
+        }
+        return true;
     }
     
-    public int[] getActivePieceLocation(){ //TODO: ver en caso que sea T
+    public int[] getActivePieceLocation(){
         int yPiecePosition= -1;
         int xPiecePosition= -1;
 
-        for (int yIndex =  0; yIndex < getMatrix().size(); yIndex++) { // loop para ver la posicion y de la pieza
+        for (int yIndex =  getMatrix().size() - 1; yIndex >= 0; yIndex--) { // loop para ver la posicion y de la pieza TODO: arreglar
             boolean undefinedY= yPiecePosition == -1;
             boolean lineContainsX= getMatrix(yIndex).trim().contains(("x"));
             if(undefinedY && lineContainsX){
@@ -237,7 +239,6 @@ public class Board {
     private void reWriteActivePiece(int[] location){ //se usa para reescribir la pieza en caso de una rotacion o movimiento (no chequea si hubo colision)
 
         String[] pieceMatrix= getPieces(getLastActivePieceIndex()).getMatrix();
-        int pieceHeight= countHeight(getPieces(getLastActivePieceIndex()));
         int pieceWidth= countWidth(getPieces(getLastActivePieceIndex()));
         eraseActivePiece();
 
@@ -248,7 +249,7 @@ public class Board {
                 boolean charAtPositionIsNotSpace= charAtPosition != SPACE_CHAR;
                 if (charAtPositionIsNotSpace) {
                     int matrixXIndex= location[0] + xIndex;
-                    int matrixYIndex= location[1] - yIndex + pieceHeight;
+                    int matrixYIndex= location[1] + (yIndex - 3);
                     setMatrix(matrixYIndex, changeStringRange(matrixXIndex, getMatrix(matrixYIndex), EMPTY_STRING+X_CHAR));
                 }
                 
@@ -271,9 +272,10 @@ public class Board {
                 }
 
                 ArrayList<Integer> pointOfPosibleColition= new ArrayList<Integer>();
-                String upperString= this.getMatrix(getLastActivePieceIndex());
+                int positionY= getActivePieceLocation()[1];
+                String upperString= this.getMatrix(positionY);
 
-                String lowerString= this.getMatrix(getLastActivePieceIndex()+1);
+                String lowerString= this.getMatrix(positionY+1);
 
                 for(int i= 0; i < 10 ;i++){
                     if(upperString.charAt(i) == X_CHAR){
@@ -282,7 +284,9 @@ public class Board {
                 }
 
                 for(int i= 0; i < pointOfPosibleColition.size(); i++){
-                    if(lowerString.charAt(pointOfPosibleColition.get(i)) != X_CHAR){
+                    char charAtPoint= lowerString.charAt(pointOfPosibleColition.get(i));
+                    boolean sameAsX= charAtPoint == MAYUS_X_CHAR; 
+                    if(sameAsX){
                         return true;
                     }
                 }

@@ -91,14 +91,14 @@ public class Board {
 
     public void addPiece(){
 <span class="fc" id="L93">        int randomNumber= (int)(Math.random() * 5);</span>
-<span class="pc bpc" id="L94" title="3 of 6 branches missed.">        switch (randomNumber) {</span>
+<span class="pc bpc" id="L94" title="4 of 6 branches missed.">        switch (randomNumber) {</span>
             case 0:
 <span class="nc" id="L96">                addPiece(new PieceDog());</span>
 <span class="nc" id="L97">                break;</span>
 
             case 1:
-<span class="fc" id="L100">                addPiece(new PieceL());</span>
-<span class="fc" id="L101">                break;</span>
+<span class="nc" id="L100">                addPiece(new PieceL());</span>
+<span class="nc" id="L101">                break;</span>
 
             case 2:
 <span class="nc" id="L104">                addPiece(new PieceSquare());</span>
@@ -114,18 +114,18 @@ public class Board {
         }
 <span class="fc" id="L115">    }</span>
 
-    public void addPiece(BasePiece piece,int locationX){
-<span class="nc bnc" id="L118" title="All 2 branches missed.">        if(!noSpaceLeft()){</span>
-<span class="nc" id="L119">            setPieces(piece);</span>
-<span class="nc" id="L120">            setNextToWall(false);</span>
+    public void addPiece(BasePiece piece,int locationX){ //TODO:que no se pueda ejecutar si hay una pieza activa
+<span class="fc bfc" id="L118" title="All 2 branches covered.">        if(!noSpaceLeft()){</span>
+<span class="fc" id="L119">            setPieces(piece);</span>
+<span class="fc" id="L120">            setNextToWall(false);</span>
 
-<span class="nc" id="L122">            int locationY= countHeight(getPieces(getLastActivePieceIndex())) - 1;</span>
-<span class="nc" id="L123">            int[] location= {locationX, locationY};</span>
-<span class="nc" id="L124">            reWriteActivePiece(location);</span>
+<span class="fc" id="L122">            int locationY= countHeight(getPieces(getLastActivePieceIndex())) - 1;</span>
+<span class="fc" id="L123">            int[] location= {locationX, locationY};</span>
+<span class="fc" id="L124">            reWriteActivePiece(location);</span>
         }
-<span class="nc" id="L126">    }</span>
+<span class="fc" id="L126">    }</span>
 
-    public void addPiece(BasePiece piece){
+    public void addPiece(BasePiece piece){ //TODO:que no se pueda ejecutar si hay una pieza activa
 <span class="pc bpc" id="L129" title="1 of 2 branches missed.">        if(!noSpaceLeft()){</span>
 <span class="fc" id="L130">            setPieces(piece);</span>
 <span class="fc" id="L131">            setNextToWall(false);</span>
@@ -173,8 +173,8 @@ public class Board {
     }
 
     private void eraseActivePiece(){
-<span class="fc bfc" id="L176" title="All 2 branches covered.">        for (int y = 0; y &lt; getMatrix().size() - 1; y++) {</span>
-<span class="fc bfc" id="L177" title="All 2 branches covered.">            for (int x = 0; x &lt; getMatrix(y).length() - 1; x++) {</span>
+<span class="fc bfc" id="L176" title="All 2 branches covered.">        for (int y = 0; y &lt; getMatrix().size(); y++) {</span>
+<span class="fc bfc" id="L177" title="All 2 branches covered.">            for (int x = 0; x &lt; getMatrix(y).length(); x++) {</span>
 <span class="fc bfc" id="L178" title="All 2 branches covered.">                if (getMatrix(y).charAt(x) == X_CHAR) {</span>
 <span class="fc" id="L179">                    setMatrix(y, changeStringRange(x, getMatrix(y), SPACE_STRING));</span>
                 }
@@ -186,203 +186,220 @@ public class Board {
     public boolean moveDownActivePiece(){
 <span class="fc" id="L187">        BasePiece piece= getPieces(getLastActivePieceIndex());</span>
 
-<span class="pc bpc" id="L189" title="1 of 2 branches missed.">        if(willCrash((byte)0)){</span>
-<span class="nc" id="L190">            piece.collided();</span>
-<span class="nc bnc" id="L191" title="All 2 branches missed.">            for (int y = 0; y &lt; getMatrix().size(); y++) { // cambia todos lo caracteres x por X</span>
-<span class="nc bnc" id="L192" title="All 2 branches missed.">                for (int x = 0; x &lt; getMatrix(y).length(); x++) {</span>
-<span class="nc bnc" id="L193" title="All 2 branches missed.">                    if(getMatrix(y).charAt(x) == X_CHAR){</span>
-<span class="nc" id="L194">                        setMatrix(y, changeStringRange(x, getMatrix(y), EMPTY_STRING+MAYUS_X_CHAR));</span>
+<span class="fc bfc" id="L189" title="All 2 branches covered.">        if(willCrash((byte)0)){  // si la pieza choca...</span>
+<span class="fc" id="L190">            piece.collided();</span>
+<span class="fc bfc" id="L191" title="All 2 branches covered.">            for (int y = 0; y &lt; getMatrix().size(); y++) { // cambia todos lo caracteres x por X</span>
+<span class="fc bfc" id="L192" title="All 2 branches covered.">                for (int x = 0; x &lt; getMatrix(y).length(); x++) {</span>
+<span class="fc bfc" id="L193" title="All 2 branches covered.">                    if(getMatrix(y).charAt(x) == X_CHAR){</span>
+<span class="fc" id="L194">                        setMatrix(y, changeStringRange(x, getMatrix(y), EMPTY_STRING+MAYUS_X_CHAR));</span>
                     }
                 }
             }
-<span class="nc" id="L198">            return true;</span>
+<span class="fc" id="L198">            return true;</span>
         }
 
-
-<span class="fc" id="L202">        int[] location= getActivePieceLocation();</span>
+<span class="pc bpc" id="L201" title="1 of 2 branches missed.">        if (pieceActiveOnBoard()) {</span>
+<span class="fc" id="L202">            int[] location= getActivePieceLocation();</span>
 <span class="fc" id="L203">        location[1]++;</span>
 
-<span class="fc" id="L205">        reWriteActivePiece(location);</span>
+<span class="fc" id="L205">        reWriteActivePiece(location); // reescribir la pieza abajo</span>
 
 <span class="fc" id="L207">        contarLineasCompletas();</span>
 <span class="fc" id="L208">        return false;</span>
+        }
+<span class="nc" id="L210">        return true;</span>
     }
     
     public int[] getActivePieceLocation(){
-<span class="fc" id="L212">        int yPiecePosition= -1;</span>
-<span class="fc" id="L213">        int xPiecePosition= -1;</span>
+<span class="fc" id="L214">        int yPiecePosition= -1;</span>
+<span class="fc" id="L215">        int xPiecePosition= -1;</span>
 
-<span class="fc bfc" id="L215" title="All 2 branches covered.">        for (int yIndex = getMatrix().size() - 1; yIndex &gt; 0; yIndex--) { // loop para ver la posicion de la pieza</span>
-<span class="fc bfc" id="L216" title="All 2 branches covered.">            boolean undefinedY= yPiecePosition == -1;</span>
-<span class="fc" id="L217">            boolean lineContainsX= getMatrix(yIndex).trim().contains((&quot;x&quot;));</span>
-<span class="fc bfc" id="L218" title="All 4 branches covered.">            if(undefinedY &amp;&amp; lineContainsX){</span>
-<span class="fc" id="L219">                yPiecePosition= yIndex;</span>
+<span class="fc bfc" id="L217" title="All 2 branches covered.">        for (int yIndex =  getMatrix().size() - 1; yIndex &gt;= 0; yIndex--) { // loop para ver la posicion y de la pieza TODO: arreglar</span>
+<span class="fc bfc" id="L218" title="All 2 branches covered.">            boolean undefinedY= yPiecePosition == -1;</span>
+<span class="fc" id="L219">            boolean lineContainsX= getMatrix(yIndex).trim().contains((&quot;x&quot;));</span>
+<span class="fc bfc" id="L220" title="All 4 branches covered.">            if(undefinedY &amp;&amp; lineContainsX){</span>
+<span class="fc" id="L221">                yPiecePosition= yIndex;</span>
             }
+        }
 
-<span class="fc bfc" id="L222" title="All 2 branches covered.">            if (xPiecePosition == -1) {</span>
-<span class="fc bfc" id="L223" title="All 2 branches covered.">                for (int xIndex = 0; xIndex &lt; getMatrix(yIndex).length() - 1; xIndex++) {</span>
-<span class="fc bfc" id="L224" title="All 2 branches covered.">                    if(getMatrix(yIndex).charAt(xIndex) == X_CHAR){</span>
-<span class="fc" id="L225">                        xPiecePosition= xIndex;</span>
-                    }
+<span class="fc bfc" id="L225" title="All 2 branches covered.">        for (int xIndex = 0; xIndex &lt; 10; xIndex++) { // loop para ver la posicion x de la pieza</span>
+<span class="fc bfc" id="L226" title="All 2 branches covered.">            for (int yIndex = 0; yIndex &lt; 20; yIndex++) {</span>
+<span class="fc bfc" id="L227" title="All 2 branches covered.">                boolean positionIsX= getMatrix(yIndex).charAt(xIndex) == X_CHAR;</span>
+<span class="fc bfc" id="L228" title="All 2 branches covered.">                boolean xPiecePositionUndefined= xPiecePosition == -1;</span>
+<span class="fc bfc" id="L229" title="All 4 branches covered.">                if ( xPiecePositionUndefined &amp;&amp; positionIsX) {</span>
+<span class="fc" id="L230">                    xPiecePosition= xIndex;</span>
                 }
             }
         }
-<span class="fc" id="L230">        int[] position= {xPiecePosition,yPiecePosition};</span>
-<span class="fc" id="L231">        return position;</span>
+        
+<span class="fc" id="L235">        int[] position= {xPiecePosition,yPiecePosition};</span>
+<span class="fc" id="L236">        return position;</span>
     }
 
     private void reWriteActivePiece(int[] location){ //se usa para reescribir la pieza en caso de una rotacion o movimiento (no chequea si hubo colision)
 
-<span class="fc" id="L236">        String[] pieceMatrix= getPieces(getLastActivePieceIndex()).getMatrix();</span>
-<span class="fc" id="L237">        int pieceHeight= countHeight(getPieces(getLastActivePieceIndex()));</span>
-<span class="fc" id="L238">        int pieceWidth= countWidth(getPieces(getLastActivePieceIndex()));</span>
-<span class="fc" id="L239">        eraseActivePiece(); // hace que no esté repetida la pieza, por lo que siempre tiene que hacerce a lo ultimo</span>
+<span class="fc" id="L241">        String[] pieceMatrix= getPieces(getLastActivePieceIndex()).getMatrix();</span>
+<span class="fc" id="L242">        int pieceWidth= countWidth(getPieces(getLastActivePieceIndex()));</span>
+<span class="fc" id="L243">        eraseActivePiece();</span>
 
-<span class="fc bfc" id="L241" title="All 2 branches covered.">        for (int yIndex = pieceHeight; yIndex &gt; 0; yIndex--) {</span>
-<span class="fc bfc" id="L242" title="All 2 branches covered.">            for (int xIndex = 0; xIndex &lt; pieceWidth; xIndex++) {</span>
+<span class="fc bfc" id="L245" title="All 2 branches covered.">        for (int yIndex = 0; yIndex &lt; 4; yIndex++) {</span>
+<span class="fc bfc" id="L246" title="All 2 branches covered.">            for (int xIndex = 0; xIndex &lt; pieceWidth; xIndex++) {</span>
 
-<span class="fc" id="L244">                char charAtPosition= pieceMatrix[yIndex].charAt(xIndex);</span>
-<span class="fc bfc" id="L245" title="All 2 branches covered.">                boolean charAtPositionIsNotSpace= charAtPosition != SPACE_CHAR;</span>
-<span class="fc bfc" id="L246" title="All 2 branches covered.">                if (charAtPositionIsNotSpace) {</span>
-<span class="fc" id="L247">                    int matrixXIndex= xIndex+location[0];</span>
-<span class="fc" id="L248">                    int matrixYIndex= yIndex+location[1];</span>
-<span class="fc" id="L249">                    setMatrix(matrixYIndex, changeStringRange(matrixXIndex, getMatrix(matrixYIndex), EMPTY_STRING+X_CHAR));</span>
+<span class="fc" id="L248">                char charAtPosition= pieceMatrix[yIndex].charAt(xIndex);</span>
+<span class="fc bfc" id="L249" title="All 2 branches covered.">                boolean charAtPositionIsNotSpace= charAtPosition != SPACE_CHAR;</span>
+<span class="fc bfc" id="L250" title="All 2 branches covered.">                if (charAtPositionIsNotSpace) {</span>
+<span class="fc" id="L251">                    int matrixXIndex= location[0] + xIndex;</span>
+<span class="fc" id="L252">                    int matrixYIndex= location[1] + (yIndex - 3);</span>
+<span class="fc" id="L253">                    setMatrix(matrixYIndex, changeStringRange(matrixXIndex, getMatrix(matrixYIndex), EMPTY_STRING+X_CHAR));</span>
                 }
                 
             }
         }
-<span class="fc" id="L254">    }</span>
+<span class="fc" id="L258">    }</span>
 
     private boolean willCrash(byte movement){ // 0: abajo, 1:rotacion izquierda, 2: rotacion derecha
-<span class="fc" id="L257">        BasePiece piece= getPieces(getLastActivePieceIndex());</span>
+<span class="fc" id="L261">        BasePiece piece= getPieces(getLastActivePieceIndex());</span>
         String[] pieceMatrix;
-<span class="fc" id="L259">        int[] position= getActivePieceLocation();</span>
+<span class="fc" id="L263">        int[] position= getActivePieceLocation();</span>
         int pieceWidth;
         int pieceHeight;
         
-<span class="pc bpc" id="L263" title="1 of 4 branches missed.">        switch (movement) {</span>
+<span class="pc bpc" id="L267" title="1 of 4 branches missed.">        switch (movement) {</span>
             case 0:
-<span class="pc bpc" id="L265" title="1 of 2 branches missed.">                boolean tocoElPiso= position[1] &gt;= 19;</span>
-<span class="pc bpc" id="L266" title="1 of 2 branches missed.">                if(tocoElPiso){</span>
-<span class="nc" id="L267">                return true;</span>
+<span class="fc bfc" id="L269" title="All 2 branches covered.">                boolean tocoElPiso= position[1] &gt;= 19;</span>
+<span class="fc bfc" id="L270" title="All 2 branches covered.">                if(tocoElPiso){</span>
+<span class="fc" id="L271">                return true;</span>
                 }
 
-<span class="fc" id="L270">                ArrayList&lt;Integer&gt; pointOfPosibleColition= new ArrayList&lt;Integer&gt;();</span>
-<span class="fc" id="L271">                String upperString= this.getMatrix(getLastActivePieceIndex());</span>
+<span class="fc" id="L274">                ArrayList&lt;Integer&gt; pointOfPosibleColition= new ArrayList&lt;Integer&gt;();</span>
+<span class="fc" id="L275">                int positionY= getActivePieceLocation()[1];</span>
+<span class="fc" id="L276">                String upperString= this.getMatrix(positionY);</span>
 
-<span class="fc" id="L273">                String lowerString= this.getMatrix(getLastActivePieceIndex()+1);</span>
+<span class="fc" id="L278">                String lowerString= this.getMatrix(positionY+1);</span>
 
-<span class="fc bfc" id="L275" title="All 2 branches covered.">                for(int i= 0; i &lt; 10 ;i++){</span>
-<span class="pc bpc" id="L276" title="1 of 2 branches missed.">                    if(upperString.charAt(i) == X_CHAR){</span>
-<span class="nc" id="L277">                        pointOfPosibleColition.add(i);</span>
+<span class="fc bfc" id="L280" title="All 2 branches covered.">                for(int i= 0; i &lt; 10 ;i++){</span>
+<span class="fc bfc" id="L281" title="All 2 branches covered.">                    if(upperString.charAt(i) == X_CHAR){</span>
+<span class="fc" id="L282">                        pointOfPosibleColition.add(i);</span>
                     }
                 }
 
-<span class="pc bpc" id="L281" title="1 of 2 branches missed.">                for(int i= 0; i &lt; pointOfPosibleColition.size(); i++){</span>
-<span class="nc bnc" id="L282" title="All 2 branches missed.">                    if(lowerString.charAt(pointOfPosibleColition.get(i)) != X_CHAR){</span>
-<span class="nc" id="L283">                        return true;</span>
+<span class="fc bfc" id="L286" title="All 2 branches covered.">                for(int i= 0; i &lt; pointOfPosibleColition.size(); i++){</span>
+<span class="fc" id="L287">                    char charAtPoint= lowerString.charAt(pointOfPosibleColition.get(i));</span>
+<span class="pc bpc" id="L288" title="1 of 2 branches missed.">                    boolean sameAsX= charAtPoint == MAYUS_X_CHAR; </span>
+<span class="pc bpc" id="L289" title="1 of 2 branches missed.">                    if(sameAsX){</span>
+<span class="nc" id="L290">                        return true;</span>
                     }
                 }
 
-<span class="fc" id="L287">                break;</span>
+<span class="fc" id="L294">                break;</span>
 
             case 1:
-<span class="fc" id="L290">                piece.rotateLeft();</span>
-<span class="fc" id="L291">                pieceMatrix= piece.getMatrix();</span>
-<span class="fc" id="L292">                pieceWidth= countWidth(piece);</span>
-<span class="fc" id="L293">                pieceHeight= countHeight(piece);</span>
+<span class="fc" id="L297">                piece.rotateLeft();</span>
+<span class="fc" id="L298">                pieceMatrix= piece.getMatrix();</span>
+<span class="fc" id="L299">                pieceWidth= countWidth(piece);</span>
+<span class="fc" id="L300">                pieceHeight= countHeight(piece);</span>
 
-<span class="pc bpc" id="L295" title="1 of 2 branches missed.">                if(10-position[0] &lt; pieceWidth){ // toca la pared si gira?</span>
-<span class="nc" id="L296">                    piece.rotateRight();</span>
-<span class="nc" id="L297">                    return true;</span>
+<span class="pc bpc" id="L302" title="1 of 2 branches missed.">                if(10-position[0] &lt; pieceWidth){ // toca la pared si gira?</span>
+<span class="nc" id="L303">                    piece.rotateRight();</span>
+<span class="nc" id="L304">                    return true;</span>
                 }
 
-<span class="pc bpc" id="L300" title="1 of 2 branches missed.">                for (int y = position[1]; y &lt; position[1]-pieceWidth; y++) {</span>
-<span class="nc bnc" id="L301" title="All 2 branches missed.">                    for (int x = position[0]; x &lt; position[0]-pieceHeight; x++) {</span>
-<span class="nc bnc" id="L302" title="All 4 branches missed.">                        if(pieceMatrix[y-position[1]].charAt(x-position[0]) == X_CHAR &amp;&amp; getMatrix(y).charAt(x) == MAYUS_X_CHAR){</span>
-<span class="nc" id="L303">                            return true;</span>
+<span class="pc bpc" id="L307" title="1 of 2 branches missed.">                for (int y = position[1]; y &lt; position[1]-pieceWidth; y++) {</span>
+<span class="nc bnc" id="L308" title="All 2 branches missed.">                    for (int x = position[0]; x &lt; position[0]-pieceHeight; x++) {</span>
+<span class="nc bnc" id="L309" title="All 4 branches missed.">                        if(pieceMatrix[y-position[1]].charAt(x-position[0]) == X_CHAR &amp;&amp; getMatrix(y).charAt(x) == MAYUS_X_CHAR){</span>
+<span class="nc" id="L310">                            return true;</span>
                         }
                     }
                 }
 
-<span class="fc" id="L308">                piece.rotateRight();</span>
-<span class="fc" id="L309">                break;</span>
+<span class="fc" id="L315">                piece.rotateRight();</span>
+<span class="fc" id="L316">                break;</span>
 
             case 2:
-<span class="fc" id="L312">                piece.rotateRight();</span>
-<span class="fc" id="L313">                pieceMatrix= piece.getMatrix();</span>
-<span class="fc" id="L314">                pieceWidth= countWidth(piece);</span>
-<span class="fc" id="L315">                pieceHeight= countHeight(piece);</span>
+<span class="fc" id="L319">                piece.rotateRight();</span>
+<span class="fc" id="L320">                pieceMatrix= piece.getMatrix();</span>
+<span class="fc" id="L321">                pieceWidth= countWidth(piece);</span>
+<span class="fc" id="L322">                pieceHeight= countHeight(piece);</span>
 
-<span class="pc bpc" id="L317" title="1 of 2 branches missed.">                if(10-position[0] &lt; pieceWidth){ // toca la pared si gira?</span>
-<span class="nc" id="L318">                    piece.rotateLeft();</span>
-<span class="nc" id="L319">                    return true;</span>
+<span class="pc bpc" id="L324" title="1 of 2 branches missed.">                if(10-position[0] &lt; pieceWidth){ // toca la pared si gira?</span>
+<span class="nc" id="L325">                    piece.rotateLeft();</span>
+<span class="nc" id="L326">                    return true;</span>
                 }
 
-<span class="pc bpc" id="L322" title="1 of 2 branches missed.">                for (int y = position[1]; y &lt; position[1]-pieceWidth; y++) {</span>
-<span class="nc bnc" id="L323" title="All 2 branches missed.">                    for (int x = position[0]; x &lt; position[0]-pieceHeight; x++) {</span>
-<span class="nc bnc" id="L324" title="All 4 branches missed.">                        if(pieceMatrix[y-position[1]].charAt(x-position[0]) == X_CHAR &amp;&amp; getMatrix(y).charAt(x) == MAYUS_X_CHAR){</span>
-<span class="nc" id="L325">                            return true;</span>
+<span class="pc bpc" id="L329" title="1 of 2 branches missed.">                for (int y = position[1]; y &lt; position[1]-pieceWidth; y++) {</span>
+<span class="nc bnc" id="L330" title="All 2 branches missed.">                    for (int x = position[0]; x &lt; position[0]-pieceHeight; x++) {</span>
+<span class="nc bnc" id="L331" title="All 4 branches missed.">                        if(pieceMatrix[y-position[1]].charAt(x-position[0]) == X_CHAR &amp;&amp; getMatrix(y).charAt(x) == MAYUS_X_CHAR){</span>
+<span class="nc" id="L332">                            return true;</span>
                         }
                     }
                 }
 
-<span class="fc" id="L330">                piece.rotateLeft();</span>
+<span class="fc" id="L337">                piece.rotateLeft();</span>
                 break;
         }
-<span class="fc" id="L333">        return false;</span>
+<span class="fc" id="L340">        return false;</span>
     }
 
     public void turnActivePieceLeft(){
-<span class="fc" id="L337">        int[] location= getActivePieceLocation();</span>
-<span class="pc bpc" id="L338" title="1 of 2 branches missed.">        if (!willCrash((byte)1)) {</span>
-<span class="fc" id="L339">            getPieces(getLastActivePieceIndex()).rotateLeft();</span>
-<span class="pc bpc" id="L340" title="1 of 2 branches missed.">            if(getNextToWall()){</span>
-<span class="nc" id="L341">                int newWidth= countWidth(getPieces(getLastActivePieceIndex()));</span>
-<span class="nc" id="L342">                getPieces(getLastActivePieceIndex()).rotateLeft();</span>
-<span class="nc" id="L343">                location[0]-= newWidth - countWidth(getPieces(getLastActivePieceIndex()));</span>
+<span class="fc" id="L344">        int[] location= getActivePieceLocation();</span>
+<span class="pc bpc" id="L345" title="1 of 2 branches missed.">        if (!willCrash((byte)1)) {</span>
+<span class="fc" id="L346">            getPieces(getLastActivePieceIndex()).rotateLeft();</span>
+<span class="pc bpc" id="L347" title="1 of 2 branches missed.">            if(getNextToWall()){</span>
+<span class="nc" id="L348">                int newWidth= countWidth(getPieces(getLastActivePieceIndex()));</span>
+<span class="nc" id="L349">                getPieces(getLastActivePieceIndex()).rotateLeft();</span>
+<span class="nc" id="L350">                location[0]-= newWidth - countWidth(getPieces(getLastActivePieceIndex()));</span>
             }
-<span class="fc" id="L345">            reWriteActivePiece(location);</span>
+<span class="fc" id="L352">            reWriteActivePiece(location);</span>
         }
-<span class="fc" id="L347">    }</span>
+<span class="fc" id="L354">    }</span>
 
     public void turnActivePieceRight(){
-<span class="fc" id="L350">        int[] location= getActivePieceLocation();</span>
-<span class="pc bpc" id="L351" title="1 of 2 branches missed.">        if (!willCrash((byte)2)) {</span>
-<span class="fc" id="L352">            getPieces(getLastActivePieceIndex()).rotateRight();</span>
-<span class="pc bpc" id="L353" title="1 of 2 branches missed.">            if(getNextToWall()){</span>
-<span class="nc" id="L354">                int newWidth= countWidth(getPieces(getLastActivePieceIndex()));</span>
-<span class="nc" id="L355">                getPieces(getLastActivePieceIndex()).rotateLeft();</span>
-<span class="nc" id="L356">                location[0]-= newWidth - countWidth(getPieces(getLastActivePieceIndex()));</span>
-<span class="nc" id="L357">                getPieces(getLastActivePieceIndex()).rotateRight();</span>
+<span class="fc" id="L357">        int[] location= getActivePieceLocation();</span>
+<span class="pc bpc" id="L358" title="1 of 2 branches missed.">        if (!willCrash((byte)2)) {</span>
+<span class="fc" id="L359">            getPieces(getLastActivePieceIndex()).rotateRight();</span>
+<span class="pc bpc" id="L360" title="1 of 2 branches missed.">            if(getNextToWall()){</span>
+<span class="nc" id="L361">                int newWidth= countWidth(getPieces(getLastActivePieceIndex()));</span>
+<span class="nc" id="L362">                getPieces(getLastActivePieceIndex()).rotateLeft();</span>
+<span class="nc" id="L363">                location[0]-= newWidth - countWidth(getPieces(getLastActivePieceIndex()));</span>
+<span class="nc" id="L364">                getPieces(getLastActivePieceIndex()).rotateRight();</span>
             }
-<span class="nc" id="L359">            reWriteActivePiece(location);</span>
+<span class="fc" id="L366">            reWriteActivePiece(location);</span>
         }
-<span class="nc" id="L361">    }</span>
+<span class="fc" id="L368">    }</span>
 
     public void contarLineasCompletas(){
-<span class="fc bfc" id="L364" title="All 2 branches covered.">        for (int i= 0; i &lt; getMatrix().size() ; i++) {</span>
-<span class="pc bpc" id="L365" title="1 of 2 branches missed.">            if(getMatrix(i) == X_X10){</span>
-<span class="nc" id="L366">                getMatrix().remove(i);</span>
-<span class="nc" id="L367">                getMatrix().add(0,SPACE_X10);</span>
-<span class="nc" id="L368">                setLineasComletadas(getLineasComletadas()+1);</span>
+<span class="fc bfc" id="L371" title="All 2 branches covered.">        for (int i= 0; i &lt; getMatrix().size() ; i++) {</span>
+<span class="pc bpc" id="L372" title="1 of 2 branches missed.">            if(getMatrix(i) == X_X10){</span>
+<span class="nc" id="L373">                getMatrix().remove(i);</span>
+<span class="nc" id="L374">                getMatrix().add(0,SPACE_X10);</span>
+<span class="nc" id="L375">                setLineasComletadas(getLineasComletadas()+1);</span>
             }
         }
-<span class="fc" id="L371">    }</span>
+<span class="fc" id="L378">    }</span>
 
     public boolean noSpaceLeft() {
-<span class="fc bfc" id="L374" title="All 2 branches covered.">        for (int i = 0; i &lt; 4; i++) {</span>
-<span class="pc bpc" id="L375" title="1 of 2 branches missed.">            if(getMatrix(i) != SPACE_X10){</span>
-<span class="nc" id="L376">                return true;</span>
+<span class="fc bfc" id="L381" title="All 2 branches covered.">        for (int i = 0; i &lt; 4; i++) {</span>
+<span class="fc bfc" id="L382" title="All 2 branches covered.">            if(getMatrix(i) != SPACE_X10){</span>
+<span class="fc" id="L383">                return true;</span>
             }
         }
-<span class="fc" id="L379">        return false;</span>
+<span class="fc" id="L386">        return false;</span>
     }
 
     public void printBoard(){
-<span class="fc bfc" id="L383" title="All 2 branches covered.">        for (int i = 0; i &lt; getMatrix().size() - 1; i++) {</span>
-<span class="fc" id="L384">            System.out.println(getMatrix(i));</span>
+<span class="fc bfc" id="L390" title="All 2 branches covered.">        for (int i = 0; i &lt; getMatrix().size(); i++) {</span>
+<span class="fc" id="L391">            System.out.println(getMatrix(i));</span>
         }
-<span class="fc" id="L386">    }</span>
+<span class="fc" id="L393">    }</span>
+
+    public boolean pieceActiveOnBoard(){ //TODO: implementar: addPiece, MoveDowm, ...
+<span class="fc bfc" id="L396" title="All 2 branches covered.">        for (int yIndex = 0; yIndex &lt; getMatrix().size(); yIndex++) {</span>
+<span class="fc" id="L397">            boolean hayXActivaEnLaLinea= getMatrix(yIndex).trim().contains(&quot;x&quot;);</span>
+<span class="fc bfc" id="L398" title="All 2 branches covered.">            if(hayXActivaEnLaLinea){</span>
+<span class="fc" id="L399">                return true;</span>
+            }
+        }
+<span class="fc" id="L402">        return false;</span>
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

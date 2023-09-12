@@ -89,4 +89,14 @@ public class TetrisTest {
 
         tetris.rotateRight();
     }
+
+    @Test
+    public void winTest(){
+
+    }
+
+    @Test
+    public void loseTest(){
+
+    }
 }

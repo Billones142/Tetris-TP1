@@ -42,10 +42,10 @@ public class BoarddTest {
     @Test
     public void addPiece_test(){
         Board board = new Board();
-        BasePiece dog= new PieceStick(0);
+        BasePiece piece= new PieceL(0,0);
 
-        board.addPiece(dog);
-        assertEquals(board.getPieces(0),dog);
+        board.addPiece(piece);
+        assertEquals(board.getPieces(0),piece);
         board.printBoard();
 
         assertNotEquals("0000000000", board.getMatrix(0));
@@ -78,18 +78,22 @@ public class BoarddTest {
     }
 
     @Test
-    public void turnActivePieceLeftTest(){ //TODO
+    public void turnActivePieceLeftTest(){
         Board board = new Board();
 
-        board.addPiece();
+        board.addPiece(new PieceDog(0,0));
+        board.moveDownActivePiece();
+        board.moveDownActivePiece();
         board.turnActivePieceLeft();
     }
 
     @Test
-    public void turnActivePieceRight(){ //TODO
+    public void turnActivePieceRight(){
         Board board = new Board();
-
-        board.addPiece();
+        
+        board.addPiece(new PieceDog(0,0));
+        board.moveDownActivePiece();
+        board.moveDownActivePiece();
         board.turnActivePieceRight();
     }
 
@@ -106,6 +110,25 @@ public class BoarddTest {
 
     @Test
     public void noSpaceLeftTest(){ //TODO
+        Board board = new Board();
 
+
+        for (int i = 0; i < 9; i++) {
+            board.addPiece(new PieceSquare(),0);
+            while(!board.moveDownActivePiece()){}
+        }
+
+        assertEquals(true, board.noSpaceLeft());
+    }
+
+    
+    @Test
+    public void pieceActiveOnBoardTest(){
+        Board board = new Board();
+
+        assertEquals(false,board.pieceActiveOnBoard());
+        
+        board.addPiece();
+        assertEquals(true,board.pieceActiveOnBoard());
     }
 }
