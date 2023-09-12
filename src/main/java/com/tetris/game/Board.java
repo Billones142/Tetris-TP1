@@ -115,7 +115,7 @@ public class Board {
     }
 
     public void addPiece(BasePiece piece,int locationX){ //TODO:que no se pueda ejecutar si hay una pieza activa
-        if(!noSpaceLeft()){
+        if(!noSpaceLeft() && pieceActiveOnBoard()){
             setPieces(piece);
             setNextToWall(false);
 
@@ -126,7 +126,7 @@ public class Board {
     }
 
     public void addPiece(BasePiece piece){ //TODO:que no se pueda ejecutar si hay una pieza activa
-        if(!noSpaceLeft()){
+        if(!noSpaceLeft() && pieceActiveOnBoard()){
             setPieces(piece);
             setNextToWall(false);
 
@@ -184,6 +184,10 @@ public class Board {
 
     // returns true if colided
     public boolean moveDownActivePiece(){
+        if(!pieceActiveOnBoard()){
+            return true;
+        }
+
         BasePiece piece= getPieces(getLastActivePieceIndex());
 
         if(willCrash((byte)0)){  // si la pieza choca...
@@ -198,16 +202,15 @@ public class Board {
             return true;
         }
 
-        if (pieceActiveOnBoard()) {
-            int[] location= getActivePieceLocation();
+        
+        int[] location= getActivePieceLocation();
         location[1]++;
 
         reWriteActivePiece(location); // reescribir la pieza abajo
 
         contarLineasCompletas();
         return false;
-        }
-        return true;
+        
     }
     
     public int[] getActivePieceLocation(){
@@ -258,6 +261,10 @@ public class Board {
     }
 
     private boolean willCrash(byte movement){ // 0: abajo, 1:rotacion izquierda, 2: rotacion derecha
+        if(!pieceActiveOnBoard()){
+            return false;
+        }
+
         BasePiece piece= getPieces(getLastActivePieceIndex());
         String[] pieceMatrix;
         int[] position= getActivePieceLocation();
@@ -344,11 +351,11 @@ public class Board {
         int[] location= getActivePieceLocation();
         if (!willCrash((byte)1)) {
             getPieces(getLastActivePieceIndex()).rotateLeft();
-            if(getNextToWall()){
+            /*if(getNextToWall()){
                 int newWidth= countWidth(getPieces(getLastActivePieceIndex()));
                 getPieces(getLastActivePieceIndex()).rotateLeft();
                 location[0]-= newWidth - countWidth(getPieces(getLastActivePieceIndex()));
-            }
+            }*/
             reWriteActivePiece(location);
         }
     }
@@ -357,12 +364,12 @@ public class Board {
         int[] location= getActivePieceLocation();
         if (!willCrash((byte)2)) {
             getPieces(getLastActivePieceIndex()).rotateRight();
-            if(getNextToWall()){
+            /*if(getNextToWall()){
                 int newWidth= countWidth(getPieces(getLastActivePieceIndex()));
                 getPieces(getLastActivePieceIndex()).rotateLeft();
                 location[0]-= newWidth - countWidth(getPieces(getLastActivePieceIndex()));
                 getPieces(getLastActivePieceIndex()).rotateRight();
-            }
+            }*/
             reWriteActivePiece(location);
         }
     }

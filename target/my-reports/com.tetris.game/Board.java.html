@@ -29,7 +29,7 @@ public class Board {
     private ArrayList&lt;BasePiece&gt; pieces;
 
     private int lastActivePieceYLine;
-    private int lineasComletadas;
+    private int lineCount;
     private boolean nextToWall;
 
     //************** Inicio encapsulacion **************//
@@ -71,16 +71,16 @@ public class Board {
 <span class="nc" id="L71">        this.lastActivePieceYLine = lastActivePieceYLine;</span>
 <span class="nc" id="L72">    }</span>
 
-    private void setLineasComletadas(int lineasComletadas) {
-<span class="nc" id="L75">        this.lineasComletadas = lineasComletadas;</span>
+    private void setLineCount(int lineasComletadas) {
+<span class="nc" id="L75">        this.lineCount = lineasComletadas;</span>
 <span class="nc" id="L76">    }</span>
 
-    public int getLineasComletadas() {
-<span class="fc" id="L79">        return lineasComletadas;</span>
+    public int getLineCount() {
+<span class="fc" id="L79">        return lineCount;</span>
     }
 
     private boolean getNextToWall(){
-<span class="fc" id="L83">        return nextToWall;</span>
+<span class="nc" id="L83">        return nextToWall;</span>
     }
 
     public void setNextToWall(boolean nextToWall) {
@@ -101,12 +101,12 @@ public class Board {
 <span class="nc" id="L101">                break;</span>
 
             case 2:
-<span class="nc" id="L104">                addPiece(new PieceSquare());</span>
-<span class="nc" id="L105">                break;</span>
+<span class="fc" id="L104">                addPiece(new PieceSquare());</span>
+<span class="fc" id="L105">                break;</span>
 
             case 3:
-<span class="fc" id="L108">                addPiece(new PieceStick());</span>
-<span class="fc" id="L109">                break;</span>
+<span class="nc" id="L108">                addPiece(new PieceStick());</span>
+<span class="nc" id="L109">                break;</span>
 
             case 4:
 <span class="fc" id="L112">                addPiece(new PieceT());</span>
@@ -115,7 +115,7 @@ public class Board {
 <span class="fc" id="L115">    }</span>
 
     public void addPiece(BasePiece piece,int locationX){ //TODO:que no se pueda ejecutar si hay una pieza activa
-<span class="fc bfc" id="L118" title="All 2 branches covered.">        if(!noSpaceLeft()){</span>
+<span class="fc bfc" id="L118" title="All 2 branches covered.">        if(!noSpaceLeft() ){</span>
 <span class="fc" id="L119">            setPieces(piece);</span>
 <span class="fc" id="L120">            setNextToWall(false);</span>
 
@@ -344,11 +344,11 @@ public class Board {
 <span class="fc" id="L344">        int[] location= getActivePieceLocation();</span>
 <span class="pc bpc" id="L345" title="1 of 2 branches missed.">        if (!willCrash((byte)1)) {</span>
 <span class="fc" id="L346">            getPieces(getLastActivePieceIndex()).rotateLeft();</span>
-<span class="pc bpc" id="L347" title="1 of 2 branches missed.">            if(getNextToWall()){</span>
-<span class="nc" id="L348">                int newWidth= countWidth(getPieces(getLastActivePieceIndex()));</span>
-<span class="nc" id="L349">                getPieces(getLastActivePieceIndex()).rotateLeft();</span>
-<span class="nc" id="L350">                location[0]-= newWidth - countWidth(getPieces(getLastActivePieceIndex()));</span>
-            }
+            /*if(getNextToWall()){
+                int newWidth= countWidth(getPieces(getLastActivePieceIndex()));
+                getPieces(getLastActivePieceIndex()).rotateLeft();
+                location[0]-= newWidth - countWidth(getPieces(getLastActivePieceIndex()));
+            }*/
 <span class="fc" id="L352">            reWriteActivePiece(location);</span>
         }
 <span class="fc" id="L354">    }</span>
@@ -357,12 +357,12 @@ public class Board {
 <span class="fc" id="L357">        int[] location= getActivePieceLocation();</span>
 <span class="pc bpc" id="L358" title="1 of 2 branches missed.">        if (!willCrash((byte)2)) {</span>
 <span class="fc" id="L359">            getPieces(getLastActivePieceIndex()).rotateRight();</span>
-<span class="pc bpc" id="L360" title="1 of 2 branches missed.">            if(getNextToWall()){</span>
-<span class="nc" id="L361">                int newWidth= countWidth(getPieces(getLastActivePieceIndex()));</span>
-<span class="nc" id="L362">                getPieces(getLastActivePieceIndex()).rotateLeft();</span>
-<span class="nc" id="L363">                location[0]-= newWidth - countWidth(getPieces(getLastActivePieceIndex()));</span>
-<span class="nc" id="L364">                getPieces(getLastActivePieceIndex()).rotateRight();</span>
-            }
+            /*if(getNextToWall()){
+                int newWidth= countWidth(getPieces(getLastActivePieceIndex()));
+                getPieces(getLastActivePieceIndex()).rotateLeft();
+                location[0]-= newWidth - countWidth(getPieces(getLastActivePieceIndex()));
+                getPieces(getLastActivePieceIndex()).rotateRight();
+            }*/
 <span class="fc" id="L366">            reWriteActivePiece(location);</span>
         }
 <span class="fc" id="L368">    }</span>
@@ -372,7 +372,7 @@ public class Board {
 <span class="pc bpc" id="L372" title="1 of 2 branches missed.">            if(getMatrix(i) == X_X10){</span>
 <span class="nc" id="L373">                getMatrix().remove(i);</span>
 <span class="nc" id="L374">                getMatrix().add(0,SPACE_X10);</span>
-<span class="nc" id="L375">                setLineasComletadas(getLineasComletadas()+1);</span>
+<span class="nc" id="L375">                setLineCount(getLineCount()+1);</span>
             }
         }
 <span class="fc" id="L378">    }</span>

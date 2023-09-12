@@ -70,11 +70,19 @@ public class BoarddTest {
         for (int i = 0; i < 19; i++) { // se repite muchas veces para ver si choca
             if(board.moveDownActivePiece()){
                 chocoAlBajar= true;
+                break;
             }
             
         }
 
         assertEquals(true, chocoAlBajar);
+    }
+
+    @Test
+    public void moveDownPieceCrash_test(){
+        Board board = new Board();
+
+        board.moveDownActivePiece();
     }
 
     @Test
@@ -130,5 +138,21 @@ public class BoarddTest {
         
         board.addPiece();
         assertEquals(true,board.pieceActiveOnBoard());
+    }
+
+    @Test
+    public void pieceNextToBoardTest(){
+        Board board = new Board();
+
+        board.addPiece(new PieceStick(0),9);
+
+        board.turnActivePieceLeft();
+
+
+        board = new Board();
+
+        board.addPiece(new PieceStick(0),9);
+
+        board.turnActivePieceRight();
     }
 }
