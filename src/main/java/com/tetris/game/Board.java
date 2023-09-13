@@ -296,10 +296,6 @@ public class Board {
                 pieceWidth= countWidth(piece);
                 pieceHeight= countHeight(piece);
 
-                if(10-position[0] < pieceWidth){ // toca la pared si gira?
-                    piece.rotateRight();
-                    return true;
-                }
 
                 for (int y = position[1]; y < position[1]-pieceWidth; y++) {
                     for (int x = position[0]; x < position[0]-pieceHeight; x++) {
@@ -318,10 +314,6 @@ public class Board {
                 pieceWidth= countWidth(piece);
                 pieceHeight= countHeight(piece);
 
-                if(10-position[0] < pieceWidth){ // toca la pared si gira?
-                    piece.rotateLeft();
-                    return true;
-                }
 
                 for (int y = position[1]; y < position[1]-pieceWidth; y++) {
                     for (int x = position[0]; x < position[0]-pieceHeight; x++) {
@@ -346,7 +338,7 @@ public class Board {
         return false;
     }
 
-    public void turnActivePieceLeft(){ //TODO: que no gire si esta al lado de la pared
+    public boolean turnActivePieceLeft(){ //TODO: hace que devuelva true si choca
         int[] location= getActivePieceLocation();
         if (!willCrash((byte)1)) {
             getPieces(getLastActivePieceIndex()).rotateLeft();
@@ -356,11 +348,13 @@ public class Board {
                 reWriteActivePiece(location);
             }
         }
+
+        return false;// TODO: cambiar
     }
 
-    public void turnActivePieceRight(){ //TODO: que no gire si esta al lado de la pared
+    public boolean turnActivePieceRight(){ //TODO: hace que devuelva true si choca
         int[] location= getActivePieceLocation();
-        if (!willCrash((byte)1)) {
+        if (!willCrash((byte)2)) {
             getPieces(getLastActivePieceIndex()).rotateRight();
             if(activePieceWillTouchWall()){ // si al girar toca la pared volver a dar vuelta la pieza
                 getPieces(getLastActivePieceIndex()).rotateLeft();
@@ -368,6 +362,8 @@ public class Board {
                 reWriteActivePiece(location);
             }
         }
+
+        return false;// TODO: cambiar
     }
 
     public void contarLineCount(){

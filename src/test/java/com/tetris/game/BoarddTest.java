@@ -167,4 +167,40 @@ public class BoarddTest {
 
         board.turnActivePieceRight();
     }
+
+    @Test
+    public void giroIzquierdaGeneraChoque(){ //TODO
+        Board board = new Board();
+
+        board.addPiece(new PieceSquare(), 8);
+        while(!board.moveDownActivePiece()){} // baja la pieza hasta que choque con el piso o una pieza
+
+        board.addPiece(new PieceSquare(), 8);
+        while(!board.moveDownActivePiece()){} // baja la pieza hasta que choque con el piso o una pieza
+
+        board.addPiece(new PieceDog(1,0),6);
+        for(int i= 0; i < 15 ;i++){
+            board.moveDownActivePiece();
+        }
+
+        assertEquals(true, board.turnActivePieceLeft()); //chequear si hubo choque
+    }
+
+    @Test
+    public void giroDerechaGeneraChoque(){//TODO
+        Board board = new Board();
+
+        board.addPiece(new PieceSquare(), 8);
+        while(!board.moveDownActivePiece()){} // baja la pieza hasta que choque con el piso o una pieza
+
+        board.addPiece(new PieceSquare(), 8);
+        while(!board.moveDownActivePiece()){} // baja la pieza hasta que choque con el piso o una pieza
+
+        board.addPiece(new PieceDog(1,0),6);
+        for(int i= 0; i < 15 ;i++){
+            board.moveDownActivePiece();
+        }
+
+        assertEquals(true, board.turnActivePieceRight()); //chequear si hubo choque
+    }
 }
