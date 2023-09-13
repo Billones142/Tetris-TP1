@@ -10,8 +10,12 @@ public class Tetris {
         cantLineasParaGanar= lineasParaGanar;
     }
 
+    private boolean gameStarted= false;
     private boolean gameLost= false;
+    private boolean gameWinned= false;
 
+
+//              Inicio encapsulamiento              //
 
     private boolean getGameLost(){
         return gameLost;
@@ -21,16 +25,36 @@ public class Tetris {
         this.gameLost = finished;
     }
 
+    public void setGameWinned(boolean gameWinned) {
+        this.gameWinned = gameWinned;
+    }
+
+    private boolean getGameWinned(){
+        return gameWinned;
+    }
+
+    public void setGameStarted(boolean gameStarted) {
+        this.gameStarted = gameStarted;
+    }
+
+    private boolean getGameStarted(){
+        return gameStarted;
+    }
+
+//              Fin encapsulamiento              //
+
     public int getCantLineasParaGanar() {
         return cantLineasParaGanar;
     }
 
     public void start(){
+        setGameStarted(true);
         tick();
     }
 
     public String state(){
         if(board.getLineCount() >= getCantLineasParaGanar()){
+            setGameWinned(true);
             return "juego ganado";
         }else if(getGameLost()){
             return "juego perdido";
@@ -40,16 +64,19 @@ public class Tetris {
         return "juego en curso";
     }
 
-    public void rotateLeft(){
-        board.turnActivePieceLeft();
+    public boolean rotateLeft(){
+        return board.turnActivePieceLeft();
     }
 
-    public void rotateRight(){
-        board.turnActivePieceRight();
+    public boolean rotateRight(){
+        return board.turnActivePieceRight();
     }
 
     public void tick(){ 
         clock.tick();
+        if(getGameWinned() || getGameLost() || !getGameStarted()){
+            return;
+        }
         if (board.getLineCount() < getCantLineasParaGanar()) {
             if(board.moveDownActivePiece()){
                 if(board.noSpaceLeft()){

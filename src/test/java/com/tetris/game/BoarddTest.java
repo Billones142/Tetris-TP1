@@ -1,8 +1,6 @@
 package com.tetris.game;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
@@ -107,7 +105,7 @@ public class BoarddTest {
     }
 
     @Test
-    public void contarLineasCompletasTest(){ //TODO
+    public void contarLineasCompletasTest(){
         Board board = new Board();
 
         for (int i = 0; i < 5; i++) {
@@ -123,7 +121,7 @@ public class BoarddTest {
     }
 
     @Test
-    public void noSpaceLeftTest(){ //TODO
+    public void noSpaceLeftTest(){
         Board board = new Board();
 
 
@@ -169,7 +167,7 @@ public class BoarddTest {
     }
 
     @Test
-    public void giroIzquierdaGeneraChoque(){ //TODO
+    public void giroIzquierdaGeneraChoque(){
         Board board = new Board();
 
         board.addPiece(new PieceSquare(), 8);
@@ -187,7 +185,7 @@ public class BoarddTest {
     }
 
     @Test
-    public void giroDerechaGeneraChoque(){//TODO
+    public void giroDerechaGeneraChoque(){
         Board board = new Board();
 
         board.addPiece(new PieceSquare(), 8);

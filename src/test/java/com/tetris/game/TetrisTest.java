@@ -29,12 +29,13 @@ public class TetrisTest {
     public void tickTest(){
         Tetris tetris= new Tetris(3);
 
-        
+        tetris.start();
+
         for (int i = 0; i < 20; i++) {
             tetris.tick();
-            assertEquals(true,tetris.clock.getTicks() == i+1);
+            assertEquals(true,tetris.clock.getTicks() == i+2);
         }
-        assertNotNull(tetris.board.getPieces());
+        assertNotNull(tetris.board.getPieces(0));
     }
 
     @Test
@@ -78,6 +79,10 @@ public class TetrisTest {
 
         tetris.start();
 
+        for (int i = 0; i < 4; i++) {
+            tetris.tick();
+        }
+
         tetris.rotateLeft();
     }
 
@@ -86,6 +91,10 @@ public class TetrisTest {
         Tetris tetris = new Tetris(4);
 
         tetris.start();
+
+        for (int i = 0; i < 4; i++) {
+            tetris.tick();
+        }
 
         tetris.rotateRight();
     }

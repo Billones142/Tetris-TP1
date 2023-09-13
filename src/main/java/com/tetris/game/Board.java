@@ -17,7 +17,6 @@ public class Board {
     // static: todas las clases del mismo tipo acceden a la misma ubicacion
     private final static String EMPTY_STRING= "";
     private final static String SPACE_X4= "    ";
-    private final static String X_X10= "XXXXXXXXXX";
     private final static char X_CHAR= 'x';
     private final static char MAYUS_X_CHAR= 'X';
     private final static char SPACE_CHAR= ' ';
@@ -28,9 +27,7 @@ public class Board {
     private ArrayList<String> matrix;
     private ArrayList<BasePiece> pieces;
 
-    private int lastActivePieceYLine;
     private int lineCount;
-    private boolean nextToWall;
 
     //************** Inicio encapsulacion **************//
 
@@ -69,10 +66,6 @@ public class Board {
 
     public int getLineCount() {
         return lineCount;
-    }
-
-    public void setNextToWall(boolean nextToWall) {
-        this.nextToWall = nextToWall;
     }
 
     //************** Fin encapsulacion **************//
@@ -331,14 +324,21 @@ public class Board {
 
     private boolean activePieceWillTouchWall(){
         int piecePositionX= getActivePieceLocation()[0];
+        int piecePositionY= getActivePieceLocation()[1];
         int pieceWidth= countWidth(getPieces(getLastActivePieceIndex()));
+        int pieceHeight= countHeight(getPieces(getLastActivePieceIndex()));
         if((piecePositionX + pieceWidth) > 9){
             return true;
         }
+
+        if((piecePositionY + pieceHeight) > 19){
+            return true;
+        }
+        
         return false;
     }
 
-    public boolean turnActivePieceLeft(){ //TODO: hace que devuelva true si choca
+    public boolean turnActivePieceLeft(){
         int[] location= getActivePieceLocation();
         if (!willCrash((byte)1)) {
             getPieces(getLastActivePieceIndex()).rotateLeft();
@@ -347,12 +347,13 @@ public class Board {
             }else{
                 reWriteActivePiece(location);
             }
+            return true;
         }
 
-        return false;// TODO: cambiar
+        return false;
     }
 
-    public boolean turnActivePieceRight(){ //TODO: hace que devuelva true si choca
+    public boolean turnActivePieceRight(){ // TODO: no puede rotar si esta muy arriba
         int[] location= getActivePieceLocation();
         if (!willCrash((byte)2)) {
             getPieces(getLastActivePieceIndex()).rotateRight();
@@ -361,9 +362,10 @@ public class Board {
             }else{
                 reWriteActivePiece(location);
             }
+            return true;
         }
 
-        return false;// TODO: cambiar
+        return false;
     }
 
     public void contarLineCount(){
