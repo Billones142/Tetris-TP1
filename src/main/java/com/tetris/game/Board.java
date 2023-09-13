@@ -35,19 +35,16 @@ public class Board {
     //************** Inicio encapsulacion **************//
 
     public String getMatrix(int index) { // accede a una fila de la matrix mediante un indice
-        contarLineCount();
         return matrix.get(index);
     }
 
     public ArrayList<String> getMatrix() {  // metodo para acceder a los metodos de ArrayList
-        contarLineCount();
         return this.matrix;
     }
 
     public void setMatrix(int index, String value) {
         this.matrix.remove(index);
         this.matrix.add(index,value);
-        contarLineCount();
     }
 
     public ArrayList<BasePiece> getPieces(){  // metodo para acceder a los metodos de ArrayList
@@ -191,6 +188,7 @@ public class Board {
                     }
                 }
             }
+            contarLineCount();
             return true;
         }
 
@@ -209,7 +207,7 @@ public class Board {
         int yPiecePosition= -1;
         int xPiecePosition= -1;
 
-        for (int yIndex =  getMatrix().size() - 1; yIndex >= 0; yIndex--) { // loop para ver la posicion y de la pieza TODO: arreglar
+        for (int yIndex =  getMatrix().size() - 1; yIndex >= 0; yIndex--) { // loop para ver la posicion y de la pieza
             boolean undefinedY= yPiecePosition == -1;
             boolean lineContainsX= getMatrix(yIndex).trim().contains(("x"));
             if(undefinedY && lineContainsX){
@@ -339,31 +337,50 @@ public class Board {
         return false;
     }
 
-    public void turnActivePieceLeft(){
+    private boolean activePieceWillTouchWall(){
+        int piecePositionX= getActivePieceLocation()[0];
+        int pieceWidth= countWidth(getPieces(getLastActivePieceIndex()));
+        if((piecePositionX + pieceWidth) > 9){
+            return true;
+        }
+        return false;
+    }
+
+    public void turnActivePieceLeft(){ //TODO: que no gire si esta al lado de la pared
         int[] location= getActivePieceLocation();
         if (!willCrash((byte)1)) {
             getPieces(getLastActivePieceIndex()).rotateLeft();
-            /*if(getNextToWall()){
-                int newWidth= countWidth(getPieces(getLastActivePieceIndex()));
-                getPieces(getLastActivePieceIndex()).rotateLeft();
-                location[0]-= newWidth - countWidth(getPieces(getLastActivePieceIndex()));
-            }*/
-            reWriteActivePiece(location);
+            if(activePieceWillTouchWall()){ // si al girar toca la pared volver a dar vuelta la pieza
+                getPieces(getLastActivePieceIndex()).rotateRight();
+            }else{
+                reWriteActivePiece(location);
+            }
         }
     }
 
-    public void turnActivePieceRight(){
+    public void turnActivePieceRight(){ //TODO: que no gire si esta al lado de la pared
         int[] location= getActivePieceLocation();
-        if (!willCrash((byte)2)) {
+        if (!willCrash((byte)1)) {
             getPieces(getLastActivePieceIndex()).rotateRight();
-            reWriteActivePiece(location);
+            if(activePieceWillTouchWall()){ // si al girar toca la pared volver a dar vuelta la pieza
+                getPieces(getLastActivePieceIndex()).rotateLeft();
+            }else{
+                reWriteActivePiece(location);
+            }
         }
     }
 
     public void contarLineCount(){
-        for (int i= 0; i < getMatrix().size() ; i++) {
-            if(getMatrix(i) == X_X10){
-                getMatrix().remove(i);
+        for (int yIndex= 0; yIndex < getMatrix().size() ; yIndex++) {
+            String matrixAtILine= getMatrix(yIndex);
+            boolean lineComplete= true;
+            for (int xIndex = 0; xIndex < getMatrix(yIndex).length(); xIndex++) {
+                if(matrixAtILine.charAt(xIndex) != MAYUS_X_CHAR){
+                    lineComplete= false;
+                }
+            }
+            if(lineComplete){
+                getMatrix().remove(yIndex);
                 getMatrix().add(0,SPACE_X10);
                 setLineCount(getLineCount()+1);
             }
@@ -388,7 +405,7 @@ public class Board {
         }
     }
 
-    public boolean pieceActiveOnBoard(){ //TODO: ver si solo cuenta la x minuscula
+    public boolean pieceActiveOnBoard(){
         for (int yIndex = 0; yIndex < getMatrix().size(); yIndex++) {
             boolean hayXActivaEnLaLinea= getMatrix(yIndex).trim().contains(EMPTY_STRING+X_CHAR);
             if(hayXActivaEnLaLinea){
