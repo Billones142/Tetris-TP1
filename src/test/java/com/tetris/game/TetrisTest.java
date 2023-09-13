@@ -106,6 +106,15 @@ public class TetrisTest {
 
     @Test
     public void loseTest(){
+        Tetris tetris = new Tetris(2);
+        
 
+        tetris.start();
+        for (int i = 0; i < 15; i++) {
+            tetris.board.addPiece(new PieceSquare(),0);
+            while(tetris.board.moveDownActivePiece()){}
+        }
+
+        assertEquals("juego perdido",tetris.state());
     }
 }

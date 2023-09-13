@@ -71,7 +71,8 @@ public class BoarddTest {
                 chocoAlBajar= true;
                 break;
             }
-            
+            //board.turnActivePieceRight();
+            //board.turnActivePieceLeft();
         }
 
         assertEquals(true, chocoAlBajar);
