@@ -2,6 +2,7 @@ package com.tetris.game;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
@@ -109,11 +110,16 @@ public class BoarddTest {
     public void contarLineasCompletasTest(){ //TODO
         Board board = new Board();
 
-        board.addPiece();
+        for (int i = 0; i < 5; i++) {
+            board.addPiece(new PieceSquare(),i*2);
+            while(!board.moveDownActivePiece()){} // baja la pieza hasta que choque con el piso o una pieza
+        }
 
         for (int i = 0; i < 20; i++) {
             assertEquals(true, board.getMatrix(i) != "XXXXXXXXXX");
         }
+
+        assertEquals(2, board.getLineCount());
     }
 
     @Test
@@ -121,10 +127,16 @@ public class BoarddTest {
         Board board = new Board();
 
 
-        for (int i = 0; i < 9; i++) {
-            board.addPiece(new PieceSquare(),0);
-            while(!board.moveDownActivePiece()){}
+        for (int i = 0; i < 8; i++) {
+            board.addPiece(new PieceSquare(0,0),0);
+            while(!board.moveDownActivePiece()){} // baja la pieza hasta que choque con el piso o una pieza
         }
+
+        assertEquals("XX00000000", board.getMatrix(4));
+        assertEquals("0000000000", board.getMatrix(3));
+
+        board.addPiece(new PieceSquare(0,0),0);
+        while(!board.moveDownActivePiece()){} // baja la pieza hasta que choque con el piso o una pieza
 
         assertEquals(true, board.noSpaceLeft());
     }

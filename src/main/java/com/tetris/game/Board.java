@@ -35,16 +35,19 @@ public class Board {
     //************** Inicio encapsulacion **************//
 
     public String getMatrix(int index) { // accede a una fila de la matrix mediante un indice
+        contarLineCount();
         return matrix.get(index);
     }
 
     public ArrayList<String> getMatrix() {  // metodo para acceder a los metodos de ArrayList
+        contarLineCount();
         return this.matrix;
     }
 
     public void setMatrix(int index, String value) {
         this.matrix.remove(index);
         this.matrix.add(index,value);
+        contarLineCount();
     }
 
     public ArrayList<BasePiece> getPieces(){  // metodo para acceder a los metodos de ArrayList
@@ -63,24 +66,12 @@ public class Board {
         return getPieces().size() - 1;
     }
 
-    public int getLastActivePieceYLine() {
-        return lastActivePieceYLine;
-    }
-
-    public void setLastActivePieceYLine(int lastActivePieceYLine) {
-        this.lastActivePieceYLine = lastActivePieceYLine;
-    }
-
     private void setLineCount(int lineasComletadas) {
         this.lineCount = lineasComletadas;
     }
 
     public int getLineCount() {
         return lineCount;
-    }
-
-    private boolean getNextToWall(){
-        return nextToWall;
     }
 
     public void setNextToWall(boolean nextToWall) {
@@ -114,10 +105,12 @@ public class Board {
         }
     }
 
-    public void addPiece(BasePiece piece,int locationX){ //TODO:que no se pueda ejecutar si hay una pieza activa
-        if(!noSpaceLeft() && pieceActiveOnBoard()){
+    public void addPiece(BasePiece piece,int locationX){
+        boolean spaceLeft= !noSpaceLeft();
+        boolean pieceAlreadyActive= !pieceActiveOnBoard();
+
+        if(spaceLeft && pieceAlreadyActive){
             setPieces(piece);
-            setNextToWall(false);
 
             int locationY= countHeight(getPieces(getLastActivePieceIndex())) - 1;
             int[] location= {locationX, locationY};
@@ -125,10 +118,9 @@ public class Board {
         }
     }
 
-    public void addPiece(BasePiece piece){ //TODO:que no se pueda ejecutar si hay una pieza activa
-        if(!noSpaceLeft() && pieceActiveOnBoard()){
+    public void addPiece(BasePiece piece){
+        if(!noSpaceLeft() && !pieceActiveOnBoard()){
             setPieces(piece);
-            setNextToWall(false);
 
             int locationX= (int)(Math.random() * ( 10 - countWidth(getPieces(getLastActivePieceIndex() ))));
             System.out.println(locationX);
@@ -208,7 +200,7 @@ public class Board {
 
         reWriteActivePiece(location); // reescribir la pieza abajo
 
-        contarLineasCompletas();
+        contarLineCount();
         return false;
         
     }
@@ -364,17 +356,11 @@ public class Board {
         int[] location= getActivePieceLocation();
         if (!willCrash((byte)2)) {
             getPieces(getLastActivePieceIndex()).rotateRight();
-            /*if(getNextToWall()){
-                int newWidth= countWidth(getPieces(getLastActivePieceIndex()));
-                getPieces(getLastActivePieceIndex()).rotateLeft();
-                location[0]-= newWidth - countWidth(getPieces(getLastActivePieceIndex()));
-                getPieces(getLastActivePieceIndex()).rotateRight();
-            }*/
             reWriteActivePiece(location);
         }
     }
 
-    public void contarLineasCompletas(){
+    public void contarLineCount(){
         for (int i= 0; i < getMatrix().size() ; i++) {
             if(getMatrix(i) == X_X10){
                 getMatrix().remove(i);
@@ -385,11 +371,14 @@ public class Board {
     }
 
     public boolean noSpaceLeft() {
-        for (int i = 0; i < 4; i++) {
-            if(getMatrix(i) != SPACE_X10){
-                return true;
+        for (int yIndex = 0; yIndex < 4; yIndex++) {
+            for (int xIndex = 0; xIndex < getMatrix(yIndex).length(); xIndex++) {
+                if(getMatrix(yIndex).charAt(xIndex) != '0'){
+                    return true;
+                }
             }
         }
+
         return false;
     }
 
@@ -399,9 +388,9 @@ public class Board {
         }
     }
 
-    public boolean pieceActiveOnBoard(){ //TODO: implementar: addPiece, MoveDowm, ...
+    public boolean pieceActiveOnBoard(){ //TODO: ver si solo cuenta la x minuscula
         for (int yIndex = 0; yIndex < getMatrix().size(); yIndex++) {
-            boolean hayXActivaEnLaLinea= getMatrix(yIndex).trim().contains("x");
+            boolean hayXActivaEnLaLinea= getMatrix(yIndex).trim().contains(EMPTY_STRING+X_CHAR);
             if(hayXActivaEnLaLinea){
                 return true;
             }

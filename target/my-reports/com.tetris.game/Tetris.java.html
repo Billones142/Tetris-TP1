@@ -26,39 +26,39 @@ public class Tetris {
     }
 
     public void start(){
-<span class="nc" id="L29">        tick();</span>
-<span class="nc" id="L30">    }</span>
+<span class="fc" id="L29">        tick();</span>
+<span class="fc" id="L30">    }</span>
 
     public String state(){
 <span class="pc bpc" id="L33" title="1 of 2 branches missed.">        if(board.getLineCount() &gt;= getCantLineasParaGanar()){</span>
 <span class="nc" id="L34">            return &quot;juego ganado&quot;;</span>
 <span class="pc bpc" id="L35" title="1 of 2 branches missed.">        }else if(getGameLost()){</span>
 <span class="nc" id="L36">            return &quot;juego perdido&quot;;</span>
-<span class="pc bpc" id="L37" title="1 of 2 branches missed.">        }else if(clock.getTicks() == 0){</span>
+<span class="fc bfc" id="L37" title="All 2 branches covered.">        }else if(clock.getTicks() == 0){</span>
 <span class="fc" id="L38">            return &quot;juego no iniciado&quot;;</span>
         }
-<span class="nc" id="L40">        return &quot;juego en curso&quot;;</span>
+<span class="fc" id="L40">        return &quot;juego en curso&quot;;</span>
     }
 
     public void rotateLeft(){
-<span class="nc" id="L44">        board.turnActivePieceLeft();</span>
-<span class="nc" id="L45">    }</span>
+<span class="fc" id="L44">        board.turnActivePieceLeft();</span>
+<span class="fc" id="L45">    }</span>
 
     public void rotateRight(){
-<span class="nc" id="L48">        board.turnActivePieceRight();</span>
-<span class="nc" id="L49">    }</span>
+<span class="fc" id="L48">        board.turnActivePieceRight();</span>
+<span class="fc" id="L49">    }</span>
 
     public void tick(){ 
 <span class="fc" id="L52">        clock.tick();</span>
 <span class="pc bpc" id="L53" title="1 of 2 branches missed.">        if (board.getLineCount() &lt; getCantLineasParaGanar()) {</span>
-<span class="nc bnc" id="L54" title="All 2 branches missed.">            if(board.moveDownActivePiece()){</span>
-<span class="nc bnc" id="L55" title="All 2 branches missed.">                if(board.noSpaceLeft()){</span>
+<span class="fc bfc" id="L54" title="All 2 branches covered.">            if(board.moveDownActivePiece()){</span>
+<span class="pc bpc" id="L55" title="1 of 2 branches missed.">                if(board.noSpaceLeft()){</span>
 <span class="nc" id="L56">                    setGameLost(true);</span>
                 }else{
-<span class="nc" id="L58">                    board.addPiece();</span>
+<span class="fc" id="L58">                    board.addPiece();</span>
                 }
             }
         }
-<span class="nc" id="L62">    }</span>
+<span class="fc" id="L62">    }</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
