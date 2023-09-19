@@ -10,6 +10,18 @@ public class TestPiece extends BasePiece{
     }
 
     public boolean mirandoDerecha(){
-        return true;
+        return false;
+    }
+
+    public boolean mirandoIzquierda(){
+        return false;
+    }
+
+    public boolean mirandoArriba(){
+        return false;
+    }
+
+    public boolean mirandoAbajo(){
+        return false;
     }
 }

@@ -25,4 +25,16 @@ public class PieceSquare extends BasePiece{
     public boolean mirandoDerecha(){
         return true;
     }
+
+    public boolean mirandoIzquierda(){
+        return true;
+    }
+
+    public boolean mirandoArriba(){
+        return true;
+    }
+
+    public boolean mirandoAbajo(){
+        return true;
+    }
 }

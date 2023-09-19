@@ -88,4 +88,25 @@ public class PieceL extends BasePiece{
         }
         return false;
     }
+
+    public boolean mirandoIzquierda(){
+        if(this.getRotation() == 3){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean mirandoArriba(){
+        if(this.getRotation() == 0){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean mirandoAbajo(){
+        if(this.getRotation() == 2){
+            return true;
+        }
+        return false;
+    }
 }

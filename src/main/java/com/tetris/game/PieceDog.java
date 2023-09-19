@@ -67,4 +67,25 @@ public class PieceDog extends BasePiece{
         }
         return false;
     }
+
+    public boolean mirandoIzquierda(){
+        if(this.getRotation() == 0){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean mirandoArriba(){
+        if(this.getRotation() == 1){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean mirandoAbajo(){
+        if(this.getRotation() == 1){
+            return true;
+        }
+        return false;
+    }
 }

@@ -61,8 +61,29 @@ public class PieceT extends BasePiece{
                                         "TT  ",
                                         "T   "};
 
-        public boolean mirandoDerecha(){
+    public boolean mirandoDerecha(){
         if(this.getRotation() == 1){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean mirandoIzquierda(){
+        if(this.getRotation() == 3){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean mirandoArriba(){
+        if(this.getRotation() == 0){
+            return true;
+        }
+        return false;
+    }
+
+    public boolean mirandoAbajo(){
+        if(this.getRotation() == 2){
             return true;
         }
         return false;
