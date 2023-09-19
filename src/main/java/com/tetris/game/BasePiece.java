@@ -1,9 +1,10 @@
 package com.tetris.game;
 
+import com.tetris.Interfaces.IGiro;
 import com.tetris.Interfaces.IPieceGetMatrix;
 import com.tetris.Interfaces.IRotator;
 
-public abstract class BasePiece implements IRotator, IPieceGetMatrix{
+public abstract class BasePiece implements IRotator, IPieceGetMatrix, IGiro{
     private int rotation,maxRotations,variation,maxVariations;
     private boolean hasCollided;
 

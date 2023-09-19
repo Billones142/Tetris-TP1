@@ -3,6 +3,8 @@ package com.tetris.game;
 import static org.junit.Assert.*;
 //import static org.junit.jupiter.api.Assertions.*;  //JUnit 5
 
+import java.util.ArrayList;
+
 import org.junit.Test;
 //import org.junit.jupiter.api.Test;  //JUnit 5
 
@@ -117,4 +119,45 @@ public class TetrisTest {
 
         assertEquals("juego perdido",tetris.state());
     }
-}
+
+    @Test
+    public void countStick(){
+
+        ArrayList<BasePiece> pieces= new ArrayList<BasePiece>();
+
+        for (int i = 0; i < 100; i++) {
+            switch ((int)(Math.random() * 5)) {
+                case 0:
+                    pieces.add(new PieceDog());
+                    break;
+            
+                case 1:
+                    pieces.add(new PieceL());
+                    break;
+                
+                case 2:
+                    pieces.add(new PieceSquare());
+                    break;
+
+                case 3:
+                    pieces.add(new PieceStick());
+                    break;
+
+                case 4:
+                    pieces.add(new PieceT());
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        int amount= (int)
+                    pieces
+                    .stream()
+                    .filter(piece -> piece instanceof PieceStick)
+                    .count();
+        assertEquals(true,amount > 0);
+
+
+        }
+    }

@@ -21,4 +21,8 @@ public class PieceSquare extends BasePiece{
                                     "    ",
                                     "ZZ  ",
                                     "ZZ  "};
+    
+    public boolean mirandoDerecha(){
+        return true;
+    }
 }

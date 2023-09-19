@@ -8,4 +8,8 @@ public class TestPiece extends BasePiece{
         setRotation(0);
         setVariation(0);
     }
+
+    public boolean mirandoDerecha(){
+        return true;
+    }
 }

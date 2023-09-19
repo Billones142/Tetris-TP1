@@ -42,4 +42,10 @@ public class PieceStick extends BasePiece{
                                             "S   ",
                                             "S   "};
     
+    public boolean mirandoDerecha(){
+        if(this.getRotation() == 0){
+            return true;
+        }
+        return false;
+    }
 };

@@ -60,4 +60,11 @@ public class PieceDog extends BasePiece{
                                                 "DD  ",
                                                 "D   "}
     };
+
+    public boolean mirandoDerecha(){
+        if(this.getRotation() == 0){
+            return true;
+        }
+        return false;
+    }
 }
