@@ -74,9 +74,4 @@ public class predicadosTest {
         assertEquals(55, countTotal);
         assertEquals(27, countPredicate);
     }
-
-    @Test
-    public void failTest(){
-        assertEquals(true, false);
-    }
 }
