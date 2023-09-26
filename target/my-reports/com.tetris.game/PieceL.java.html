@@ -81,5 +81,33 @@ public class PieceL extends BasePiece{
                                             &quot;    &quot;,
                                             &quot;LLL &quot;,
                                             &quot;  L &quot;}};
+
+    public boolean mirandoDerecha(){
+<span class="nc bnc" id="L86" title="All 2 branches missed.">        if(this.getRotation() == 1){</span>
+<span class="nc" id="L87">            return true;</span>
+        }
+<span class="nc" id="L89">        return false;</span>
+    }
+
+    public boolean mirandoIzquierda(){
+<span class="nc bnc" id="L93" title="All 2 branches missed.">        if(this.getRotation() == 3){</span>
+<span class="nc" id="L94">            return true;</span>
+        }
+<span class="nc" id="L96">        return false;</span>
+    }
+
+    public boolean mirandoArriba(){
+<span class="nc bnc" id="L100" title="All 2 branches missed.">        if(this.getRotation() == 0){</span>
+<span class="nc" id="L101">            return true;</span>
+        }
+<span class="nc" id="L103">        return false;</span>
+    }
+
+    public boolean mirandoAbajo(){
+<span class="nc bnc" id="L107" title="All 2 branches missed.">        if(this.getRotation() == 2){</span>
+<span class="nc" id="L108">            return true;</span>
+        }
+<span class="nc" id="L110">        return false;</span>
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>

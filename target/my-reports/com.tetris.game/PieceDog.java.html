@@ -60,5 +60,33 @@ public class PieceDog extends BasePiece{
                                                 &quot;DD  &quot;,
                                                 &quot;D   &quot;}
     };
+
+    public boolean mirandoDerecha(){
+<span class="fc bfc" id="L65" title="All 2 branches covered.">        if(this.getRotation() == 0){</span>
+<span class="fc" id="L66">            return true;</span>
+        }
+<span class="fc" id="L68">        return false;</span>
+    }
+
+    public boolean mirandoIzquierda(){
+<span class="nc bnc" id="L72" title="All 2 branches missed.">        if(this.getRotation() == 0){</span>
+<span class="nc" id="L73">            return true;</span>
+        }
+<span class="nc" id="L75">        return false;</span>
+    }
+
+    public boolean mirandoArriba(){
+<span class="nc bnc" id="L79" title="All 2 branches missed.">        if(this.getRotation() == 1){</span>
+<span class="nc" id="L80">            return true;</span>
+        }
+<span class="nc" id="L82">        return false;</span>
+    }
+
+    public boolean mirandoAbajo(){
+<span class="nc bnc" id="L86" title="All 2 branches missed.">        if(this.getRotation() == 1){</span>
+<span class="nc" id="L87">            return true;</span>
+        }
+<span class="nc" id="L89">        return false;</span>
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.3.201901230119</span></div></body></html>
